@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baguette Clicker</title>
+    <link rel="stylesheet" href="./indexstyle.css">
+    <script src="./script.js"></script>
+</head>
+
+
+<body onload="loadGame()">
+
+<div class="baguette-text">Baguettes: <span id="baguette-count">0</span></div>
+<div class="epicbaguette-text">Epic Baguettes: <span id="epicbaguette-count">0</span></div>
+
+<div class="furnace-container">
+  <img src="./furnace.png" alt="Furnace" id="furnace-button" onclick="furnaceClick()">
+</div>
+
+
+<div class="bakery-text-container">
+    <span id="bakery-locked-text"> Bakery (LOCKED): 100 Baguettes</span>
+</div>
+
+<div class="bakery-container">
+    <img src="./arrowDown.png" alt="Arrow Button" id="bakery-button" onclick="goBakery()">
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+
+
+body, h1, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set tileable background image */
+  body {
+    background-image: url('grassTile.png');;
+    background-repeat: repeat; /* This ensures the background image is tileable */
+  }
+  
+  /* Style for Baguettes Text */
+  .baguette-text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .epicbaguette-text {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    font-size: 24px;
+    color: purple; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+  
+  /* Style for Furnace Image/Button */
+  .bakery-container {
+    position: absolute;
+    top: 150px;
+    left: 10px; /* Center horizontally */
+    width: 400px;
+  }
+
+  .tile-title {
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 20px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .explainer-text1 {
+    position: absolute;
+    top: 250px;
+  }
+
+  .explainer-text2 {
+    color: white;
+    position: absolute;
+    top: 300px;
+  }
+
+  .explainer-text3 {
+    color: white;
+    position: absolute;
+    top: 350px;
+  }
+
+  #buy-bakery-button {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    height: auto;
+    cursor: pointer;
+  }
+
+  @keyframes furnaceClick {
+    0% {
+        width: 200px;
+    }
+    50% {
+        width: 225px;
+    }
+    100% {
+        width: 200px;
+    }
+}
+
+.furnaceClick {
+    animation: furnaceClick 0.3s;
+}
+
+@keyframes cantPurchase {
+    0% {
+        font-size: 20px;
+    }
+    50% {
+        font-size: 21px;
+    }
+    100% {
+        font-size: 20px;
+    }
+}
+
+.cantPurchase {
+    animation: cantPurchase 0.3s;
+}

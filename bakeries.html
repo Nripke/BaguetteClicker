@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baguette Clicker</title>
+    <link rel="stylesheet" href="./bakerystyle.css">
+    <script src="./script.js"></script>
+</head>
+
+
+<body onload="loadGame()">
+
+<div class="baguette-text">Baguettes: <span id="baguette-count">0</span></div>
+<div class="epicbaguette-text">Epic Baguettes: <span id="epicbaguette-count">0</span></div>
+<div class="bakery-container">
+    <img src="./bakery.png" alt="Bakery" id="buy-bakery-button" onclick="buyBakery()">
+    <span class="tile-title explainer-text1" id="buy-bakery-title"> Buy Bakery: 0 Baguettes </span>
+    <span class="tile-title explainer-text2"> Current Bakeries: <span id="bakery-count">0</span> </span>
+    <span class="tile-title explainer-text3"> Bakery Production: <span id="bakery-production">0</span> bag/s </span>
+</div>
+</body>
+</html>
