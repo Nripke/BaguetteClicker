@@ -72,11 +72,27 @@ body, h1, p {
 
   #buy-bakery-button {
     position: absolute;
-    left: 25%;
-    width: 50%;
+    left: 10%;
+    width: 200px;
     height: auto;
     cursor: pointer;
   }
+
+  .market-container {
+    position: absolute;
+    top: 150px;
+    left: 600px;
+    width: 400px;
+  }
+
+  #buy-market-button {
+    position: absolute;
+    left: 0%;
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+  }
+
 
   @keyframes furnaceClick {
     0% {
@@ -92,6 +108,22 @@ body, h1, p {
 
 .furnaceClick {
     animation: furnaceClick 0.3s;
+}
+
+@keyframes marketClick {
+  0% {
+      width: 300px;
+  }
+  50% {
+      width: 325px;
+  }
+  100% {
+      width: 300px;
+  }
+}
+
+.marketClick {
+  animation: marketClick 0.3s;
 }
 
 @keyframes cantPurchase {
