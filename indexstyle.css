@@ -8,7 +8,7 @@ body, h1, p {
   
   /* Set tileable background image */
   body {
-    background-image: url('grassTile.png');;
+    background-image: url('grassTile.png');
     background-repeat: repeat; /* This ensures the background image is tileable */
   }
   
