@@ -36,6 +36,18 @@ body, h1, p {
     font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
+
+  .researchbaguette-text {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    font-size: 24px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
   
   /* Style for Furnace Image/Button */
   .bakery-container {

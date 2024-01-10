@@ -8,6 +8,8 @@ var bakeryCM = 1.1;
 var markets = 0;
 var marketCM = 1.13;
 
+var clickAmount = 1;
+var clickerCM = 1.3;
 /*
 PROGRESSION:
 
@@ -28,12 +30,27 @@ function loadGame()
 
 function furnaceClick()
 {
-    baguettes += 10;
+    baguettes += clickAmount;
 
     updateBaguetteCounters();
 
     //Play Animation
     playAnimation(document.getElementById("furnace-button"), "furnaceClick");
+}
+
+function buyFurnaceUpgrade()
+{
+    var cost = Math.floor(100*Math.pow(clickerCM, clickAmount));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        clickAmount += 1;
+        playAnimation(document.getElementById("buy-clicker-button"), "furnaceUpgradeClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-clicker-title"), "cantPurchase");
+    }
 }
 
 function updateBaguetteCounters()
@@ -52,6 +69,9 @@ function updateBaguetteCounters()
     //Update Automated Costs
     if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(100*Math.pow(bakeryCM, bakeries));}
     if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(1000*Math.pow(marketCM, markets));}
+
+    //Update Furnace Information
+    if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(100*Math.pow(clickerCM, clickAmount));}
 }
 
 function goFurnace()
@@ -139,7 +159,8 @@ function save()
         epicbaguettes: epicbaguettes,
         bakeryUnlocked: bakeryUnlocked,
         bakeries: bakeries,
-        markets: markets
+        markets: markets,
+        clickAmount: clickAmount
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -155,6 +176,7 @@ function load()
     if (typeof savedata.bakeryUnlocked !== "undefined") {bakeryUnlocked = savedata.bakeryUnlocked;}else {bakeryUnlocked = false;}
     if (typeof savedata.bakeries !== "undefined") {bakeries = savedata.bakeries;}else {bakeries = 0;}
     if (typeof savedata.markets !== "undefined") {markets = savedata.markets;}else {markets = 0;}
+    if (typeof savedata.clickAmount !== "undefined") {clickAmount = savedata.clickAmount;}else {clickAmount = 1;}
 }
 
 

@@ -36,6 +36,18 @@ body, h1, p {
     font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
+
+  .researchbaguette-text {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    font-size: 24px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
   
   /* Style for Furnace Image/Button */
   .furnace-container {
@@ -110,4 +122,47 @@ body, h1, p {
 
 .cantPurchase {
     animation: cantPurchase 0.3s;
+}
+
+.tile-title {
+  color: #00ff00;
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 15px;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.buy-clicker-container {
+  position: absolute; /* Fixed positioning */
+  top: 50%; /* Center vertically */
+  left: 80%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+#buy-clicker-button {
+  width: 100px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+#buy-clicker-title {
+  position: absolute;
+}
+
+@keyframes furnaceUpgradeClick {
+  0% {
+    width: 100px;
+  }
+  50% {
+    width: 120px;
+  }
+  100% {
+    width: 100px;
+  }
+}
+
+.furnaceUpgradeClick {
+  animation: furnaceUpgradeClick 0.3s;
 }
