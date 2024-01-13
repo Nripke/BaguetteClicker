@@ -50,28 +50,70 @@ body, h1, p {
   }
   
   /* Style for Furnace Image/Button */
-  .furnace-container {
+  .bakery-container {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the container */
+    top: 150px;
+    left: 10px; /* Center horizontally */
+    width: 400px;
   }
-  
-  #furnace-button {
-    width: 200px; /* Adjust dimensions as needed */
+
+  .tile-title {
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 20px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .explainer-text1 {
+    position: absolute;
+  }
+
+  .explainer-text2 {
+    color: white;
+    position: absolute;
+    top: 50px;
+  }
+
+  .explainer-text3 {
+    color: white;
+    position: absolute;
+    top: 350px;
+  }
+
+  #buy-bakery-button {
+    position: absolute;
+    left: 10%;
+    width: 200px;
     height: auto;
-    cursor: pointer; /* Change cursor to indicate it's clickable */
+    cursor: pointer;
   }
+
+  .market-container {
+    position: absolute;
+    top: 150px;
+    left: 600px;
+    width: 400px;
+  }
+
+  #buy-market-button {
+    position: absolute;
+    left: 0%;
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+  }
+
 
   @keyframes furnaceClick {
     0% {
-      width: 200px;
+        width: 200px;
     }
     50% {
-      width: 225px;
+        width: 225px;
     }
     100% {
-      width: 200px;
+        width: 200px;
     }
 }
 
@@ -79,44 +121,31 @@ body, h1, p {
     animation: furnaceClick 0.3s;
 }
 
-.bakery-container {
-    position: fixed; /* Fixed positioning */
-    bottom: 10px; /* 10px from the bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center the container */
-    cursor: pointer; /* Change cursor to indicate it's clickable */
+@keyframes marketClick {
+  0% {
+      width: 300px;
   }
-  
-  /* Style for Arrow Button Image */
-  #bakery-button {
-    width: 50px; /* Adjust dimensions as needed */
-    height: auto;
+  50% {
+      width: 325px;
   }
-
-.bakery-text-container {
-    position: fixed; /* Fixed positioning */
-    bottom: 70px; /* 10px from the bottom */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center the container */
-    cursor: pointer; /* Change cursor to indicate it's clickable */
-    font-family: 'Silkscreen', sans-serif;
+  100% {
+      width: 300px;
+  }
 }
 
-#bakery-locked-text {
-    color: red;
-    font-size: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+.marketClick {
+  animation: marketClick 0.3s;
 }
 
 @keyframes cantPurchase {
     0% {
-        font-size: 100%;
+        font-size: 20px;
     }
     50% {
-        font-size: 120%;
+        font-size: 21px;
     }
     100% {
-        font-size: 100%;
+        font-size: 20px;
     }
 }
 
@@ -124,15 +153,46 @@ body, h1, p {
     animation: cantPurchase 0.3s;
 }
 
-.tile-title {
-  color: #00ff00;
-  font-family: 'Silkscreen', sans-serif;
-  font-size: 15px;
-  z-index: 2;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+.furnace-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 10px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
 }
 
-.buy-clicker-container {
+#furnace-arrow {
+    width: 50px; /* Adjust dimensions as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+.furnace-text-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 70px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    font-family: 'Silkscreen', sans-serif;
+    color: #00ff00;
+    font-size: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.researcher-container {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+}
+
+#research-button {
+  width: 200px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+.buy-research-container {
   position: absolute; /* Fixed positioning */
   top: 50%; /* Center vertically */
   left: 80%; /* Center horizontally */
@@ -141,14 +201,15 @@ body, h1, p {
   cursor: pointer; /* Change cursor to indicate it's clickable */
 }
 
-#buy-clicker-button {
+#buy-research-button {
   width: 100px; /* Adjust dimensions as needed */
   height: auto;
   cursor: pointer;
 }
 
-#buy-clicker-title {
+#buy-research-title {
   position: absolute;
+  padding-left: 20px;
 }
 
 @keyframes furnaceUpgradeClick {
@@ -167,34 +228,14 @@ body, h1, p {
   animation: furnaceUpgradeClick 0.3s;
 }
 
-.research-container {
-  position: fixed; /* Fixed positioning */
-  top: 10px; /* 10px from the bottom */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Center the container */
-}
-
-#research-button {
-  rotate: 180deg;
-  width: 50px; /* Adjust dimensions as needed */
-  height: auto;
-  cursor: pointer;
-}
-
-.research-text-container {
-  position: fixed; /* Fixed positioning */
-  color: #00ff00;
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  font-family: 'Silkscreen', sans-serif;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 50px;
-  z-index: 2;
-}
-
-#research-locked-text {
-  color: red;
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+.research-info-container {
+  position: absolute; /* Fixed positioning */
+  top: 50%; /* Center vertically */
+  left: 20%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  height: 100px;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  background-color: rgb(133, 75, 42);
+  border: rgb(99, 56, 31) solid 5px;
 }

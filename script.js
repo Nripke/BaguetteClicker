@@ -1,6 +1,20 @@
 var baguettes = 0;
 var epicbaguettes = 0;
+var researchbaguettes = 0;
+
+/*
+    Research Baguettes are hard to obtain, but provide massive boosts to production
+    For each research baguette you have, they provide a passive boost to your furnace, and bakery buildings
+
+    Furnace: 1.05x
+
+    Bakery: 1.1x
+    Market: 1.05x
+    Factory: 1.03x
+*/
+
 var bakeryUnlocked = false;
+var researchUnlocked = false;
 
 var bakeries = 0;
 var bakeryCM = 1.1;
@@ -10,6 +24,9 @@ var marketCM = 1.13;
 
 var clickAmount = 1;
 var clickerCM = 1.3;
+
+var researchPercent = 1; //Any number less than this will earn a research baguette from ranNum from 1-100
+var researchCM = 100;
 /*
 PROGRESSION:
 
@@ -30,7 +47,7 @@ function loadGame()
 
 function furnaceClick()
 {
-    baguettes += clickAmount;
+    baguettes += Math.floor(clickAmount*(1+.05*researchbaguettes));
 
     updateBaguetteCounters();
 
@@ -53,18 +70,34 @@ function buyFurnaceUpgrade()
     }
 }
 
+function buyResearchUpgrade()
+{
+    var cost = Math.floor(100*Math.pow(researchCM, researchPercent));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        researchPercent += 1;
+        playAnimation(document.getElementById("buy-research-button"), "furnaceUpgradeClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-research-title"), "cantPurchase");
+    }
+}
+
 function updateBaguetteCounters()
 {
     //Update Baguette Counters
     document.getElementById("baguette-count").textContent = baguettes;
     document.getElementById("epicbaguette-count").textContent = epicbaguettes;
+    document.getElementById("researchbaguette-count").textContent = researchbaguettes;
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
-    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = bakeries*1;}
+    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = Math.floor(1*bakeries*(1+0.1*researchbaguettes));}
 
     if (document.getElementById("market-count") != null) {document.getElementById("market-count").textContent = markets;}
-    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = markets*10;}
+    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = Math.floor(10*markets*(1+0.05*researchbaguettes));}
 
     //Update Automated Costs
     if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(100*Math.pow(bakeryCM, bakeries));}
@@ -72,6 +105,11 @@ function updateBaguetteCounters()
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(100*Math.pow(clickerCM, clickAmount));}
+
+    //Update Research Information
+    if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = Math.floor(100*Math.pow(researchCM, researchPercent));}
+    if (document.getElementById("research-cost") != null) {document.getElementById("research-cost").textContent = Math.floor(Math.pow(10, researchPercent));}
+    if (document.getElementById("research-percent") != null) {document.getElementById("research-percent").textContent = researchPercent + "%";}
 }
 
 function goFurnace()
@@ -105,6 +143,45 @@ function goBakery()
     }
 }
 
+function goResearch()
+{
+    if (researchUnlocked)
+    {
+        save();
+        window.location.href = 'research.html';
+        return;
+    }
+
+    //If bakery isnt unlocked, allow purchase
+
+    if (baguettes >= 10000)
+    {
+        baguettes -= 10000;
+        researchUnlocked = true;
+
+        updateBaguetteCounters();
+        updateUnlockedFeatures();
+
+        save();
+    }else {
+        playAnimation(document.getElementById("research-locked-text"), "cantPurchase");
+    }
+}
+
+function researchClick()
+{
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    if (baguettes < Math.pow(10, researchPercent)) {return;} //Can't afford
+    
+    baguettes -= Math.floor(Math.pow(10, researchPercent));
+    if (randomNumber <= researchPercent) //Roll success
+    {
+        researchbaguettes += 1;
+        playAnimation(document.getElementById("research-button"), "furnaceClick");
+    }
+    updateBaguetteCounters();
+}
+
 function playAnimation(element, animation)
 {
     if (element.classList.contains(animation)) {element.classList.remove(animation);}
@@ -118,6 +195,12 @@ function updateUnlockedFeatures()
     {
         document.getElementById("bakery-locked-text").textContent = "Go to Bakery";
         document.getElementById("bakery-locked-text").style.color = "#00ff00";
+    }
+
+    if (researchUnlocked && document.getElementById("research-locked-text") != null)
+    {
+        document.getElementById("research-locked-text").textContent = "Go to Research";
+        document.getElementById("research-locked-text").style.color = "#00ff00";
     }
 }
 
@@ -151,6 +234,8 @@ function buyMarket()
     }
 }
 
+
+
 function save()
 {
     //Dictionary of variables
@@ -160,7 +245,10 @@ function save()
         bakeryUnlocked: bakeryUnlocked,
         bakeries: bakeries,
         markets: markets,
-        clickAmount: clickAmount
+        clickAmount: clickAmount,
+        researchbaguettes: researchbaguettes,
+        researchPercent: researchPercent,
+        researchUnlocked: researchUnlocked
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -177,6 +265,9 @@ function load()
     if (typeof savedata.bakeries !== "undefined") {bakeries = savedata.bakeries;}else {bakeries = 0;}
     if (typeof savedata.markets !== "undefined") {markets = savedata.markets;}else {markets = 0;}
     if (typeof savedata.clickAmount !== "undefined") {clickAmount = savedata.clickAmount;}else {clickAmount = 1;}
+    if (typeof savedata.researchbaguettes !== "undefined") {researchbaguettes = savedata.researchbaguettes;}else {researchbaguettes = 0;}
+    if (typeof savedata.researchPercent !== "undefined") {researchPercent = savedata.researchPercent;}else {researchPercent = 1;}
+    if (typeof savedata.researchUnlocked !== "undefined") {researchUnlocked = savedata.researchUnlocked;}else {researchUnlocked = false;}
 }
 
 
@@ -185,8 +276,8 @@ function load()
 
 //Auto Generation
 setInterval(function generateBaguettes() {
-    baguettes += 1*bakeries;
-    baguettes += 10*markets;
+    baguettes += Math.floor(1*bakeries*(1+0.1*researchbaguettes));
+    baguettes += Math.floor(10*markets*(1+0.05*researchbaguettes));
     updateBaguetteCounters();
 }, 1000);
 
