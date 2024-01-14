@@ -22,6 +22,9 @@ var bakeryCM = 1.1;
 var markets = 0;
 var marketCM = 1.13;
 
+var factories = 0;
+var factoryCM = 1.15;
+
 var clickAmount = 1;
 var clickerCM = 1.3;
 
@@ -47,7 +50,7 @@ function loadGame()
 
 function furnaceClick()
 {
-    baguettes += Math.floor(clickAmount*(1+.05*researchbaguettes));
+    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes));
 
     updateBaguetteCounters();
 
@@ -57,7 +60,7 @@ function furnaceClick()
 
 function buyFurnaceUpgrade()
 {
-    var cost = Math.floor(100*Math.pow(clickerCM, clickAmount));
+    var cost = Math.floor(25*Math.pow(clickerCM, clickAmount));
     if (baguettes >= cost)
     {
         baguettes -= cost;
@@ -99,12 +102,16 @@ function updateBaguetteCounters()
     if (document.getElementById("market-count") != null) {document.getElementById("market-count").textContent = markets;}
     if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = Math.floor(10*markets*(1+0.05*researchbaguettes));}
 
+    if (document.getElementById("factory-count") != null) {document.getElementById("factory-count").textContent = factories;}
+    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = Math.floor(100*factories*(1+0.03*researchbaguettes));}
+
     //Update Automated Costs
     if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(100*Math.pow(bakeryCM, bakeries));}
     if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(1000*Math.pow(marketCM, markets));}
+    if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(10000*Math.pow(factoryCM, factories));}
 
     //Update Furnace Information
-    if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(100*Math.pow(clickerCM, clickAmount));}
+    if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(25*Math.pow(clickerCM, clickAmount));}
 
     //Update Research Information
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = Math.floor(100*Math.pow(researchCM, researchPercent));}
@@ -234,6 +241,21 @@ function buyMarket()
     }
 }
 
+function buyFactory()
+{
+    var cost = Math.floor(10000*Math.pow(factoryCM, factories));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        factories += 1;
+        playAnimation(document.getElementById("buy-factory-button"), "marketClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-factory-title"), "cantPurchase");
+    }
+}
+
 
 
 function save()
@@ -248,7 +270,8 @@ function save()
         clickAmount: clickAmount,
         researchbaguettes: researchbaguettes,
         researchPercent: researchPercent,
-        researchUnlocked: researchUnlocked
+        researchUnlocked: researchUnlocked,
+        factories: factories
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -268,6 +291,7 @@ function load()
     if (typeof savedata.researchbaguettes !== "undefined") {researchbaguettes = savedata.researchbaguettes;}else {researchbaguettes = 0;}
     if (typeof savedata.researchPercent !== "undefined") {researchPercent = savedata.researchPercent;}else {researchPercent = 1;}
     if (typeof savedata.researchUnlocked !== "undefined") {researchUnlocked = savedata.researchUnlocked;}else {researchUnlocked = false;}
+    if (typeof savedata.factories !== "undefined") {factories = savedata.factories;}else {factories = 0;}
 }
 
 
@@ -278,6 +302,7 @@ function load()
 setInterval(function generateBaguettes() {
     baguettes += Math.floor(1*bakeries*(1+0.1*researchbaguettes));
     baguettes += Math.floor(10*markets*(1+0.05*researchbaguettes));
+    baguettes += Math.floor(100*factories*(1+0.03*researchbaguettes));
     updateBaguetteCounters();
 }, 1000);
 

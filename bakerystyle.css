@@ -105,6 +105,20 @@ body, h1, p {
     cursor: pointer;
   }
 
+  .factory-container {
+    position: absolute;
+    top: 150px;
+    left: 1200px;
+    width: 400px;
+  }
+
+  #buy-factory-button {
+    position: absolute;
+    left: 0%;
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+  }
 
   @keyframes furnaceClick {
     0% {
