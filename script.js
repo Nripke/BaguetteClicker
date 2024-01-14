@@ -25,6 +25,9 @@ var marketCM = 1.13;
 var factories = 0;
 var factoryCM = 1.15;
 
+var labs = 0;
+var labCM = 2;
+
 var clickAmount = 1;
 var clickerCM = 1.3;
 
@@ -105,10 +108,13 @@ function updateBaguetteCounters()
     if (document.getElementById("factory-count") != null) {document.getElementById("factory-count").textContent = factories;}
     if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = Math.floor(100*factories*(1+0.03*researchbaguettes));}
 
+    if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
+
     //Update Automated Costs
     if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(100*Math.pow(bakeryCM, bakeries));}
     if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(1000*Math.pow(marketCM, markets));}
     if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(10000*Math.pow(factoryCM, factories));}
+    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = Math.floor(10*Math.pow(labCM, labs));}
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(25*Math.pow(clickerCM, clickAmount));}
@@ -191,6 +197,7 @@ function researchClick()
 
 function playAnimation(element, animation)
 {
+    if (element == null) {return;}
     if (element.classList.contains(animation)) {element.classList.remove(animation);}
     void element.offsetWidth; //Resets something idk
     element.classList.add(animation);
@@ -256,7 +263,20 @@ function buyFactory()
     }
 }
 
-
+function buyLab()
+{
+    var cost = Math.floor(10*Math.pow(labCM, labs));
+    if (researchbaguettes >= cost)
+    {
+        researchbaguettes -= cost;
+        labs += 1;
+        playAnimation(document.getElementById("buy-lab-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-lab-title"), "cantPurchase");
+    }
+}
 
 function save()
 {
@@ -271,7 +291,8 @@ function save()
         researchbaguettes: researchbaguettes,
         researchPercent: researchPercent,
         researchUnlocked: researchUnlocked,
-        factories: factories
+        factories: factories,
+        labs: labs
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -292,6 +313,7 @@ function load()
     if (typeof savedata.researchPercent !== "undefined") {researchPercent = savedata.researchPercent;}else {researchPercent = 1;}
     if (typeof savedata.researchUnlocked !== "undefined") {researchUnlocked = savedata.researchUnlocked;}else {researchUnlocked = false;}
     if (typeof savedata.factories !== "undefined") {factories = savedata.factories;}else {factories = 0;}
+    if (typeof savedata.labs !== "undefined") {labs = savedata.labs;}else {labs = 0;}
 }
 
 
@@ -303,6 +325,12 @@ setInterval(function generateBaguettes() {
     baguettes += Math.floor(1*bakeries*(1+0.1*researchbaguettes));
     baguettes += Math.floor(10*markets*(1+0.05*researchbaguettes));
     baguettes += Math.floor(100*factories*(1+0.03*researchbaguettes));
+
+    for (let i = 0; i<labs; i++) //Auto Lab research
+    {
+        researchClick();
+    }
+
     updateBaguetteCounters();
 }, 1000);
 

@@ -174,7 +174,7 @@ body, h1, p {
   transform: translateX(-50%); /* Center the container */
 }
 
-#research-button {
+#research-arrow {
   rotate: 180deg;
   width: 50px; /* Adjust dimensions as needed */
   height: auto;
