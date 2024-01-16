@@ -135,6 +135,36 @@ body, h1, p {
     cursor: pointer;
   }
 
+  .lab-speed-container {
+    position: absolute;
+    top: 600px;
+    left: 600px;
+    width: 400px;
+  }
+
+  #buy-labSpeed-button {
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+  }
+
+  .alchemy-container {
+    position: absolute;
+    top: 150px;
+    left: 1800px;
+    width: 400px;
+  }
+
+  #buy-alchemy-button {
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+  }
+
   @keyframes furnaceClick {
     0% {
         width: 200px;

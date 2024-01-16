@@ -11,6 +11,7 @@ var researchbaguettes = 0;
     Bakery: 1.1x
     Market: 1.05x
     Factory: 1.03x
+    ...
 */
 
 var bakeryUnlocked = false;
@@ -18,28 +19,48 @@ var researchUnlocked = false;
 
 var bakeries = 0;
 var bakeryCM = 1.1;
+var bakeryCost = 100;
+var bakeryProduction = 2;
 
 var markets = 0;
 var marketCM = 1.13;
+var marketCost = 1000;
+var marketProduction = 15;
 
 var factories = 0;
 var factoryCM = 1.15;
+var factoryCost = 12000;
+var factoryProduction = 130;
+
+var alchemyLabs = 0;
+var alchemyCM = 1.175;
+var alchemyCost = 180000;
+var alchemyProduction = 1000;
 
 var labs = 0;
 var labCM = 2;
+var labCost = 10;
+
+var labSpeedCost = 100000;
+var labSpeed = 1000; //In Milliseconds
+var labSpeedUpgrades = 0;
+var labSpeedCM = 1.4;
+var labSpeedMultiplier = 0.99;
 
 var clickAmount = 1;
-var clickerCM = 1.3;
+var clickerCM = 1.2;
 
 var researchPercent = 1; //Any number less than this will earn a research baguette from ranNum from 1-100
 var researchCM = 100;
+
 /*
 PROGRESSION:
 
 Bakery
 Market
 Factory
-
+Alchemy
+Planet
 
 */
 
@@ -100,21 +121,28 @@ function updateBaguetteCounters()
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
-    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = Math.floor(1*bakeries*(1+0.1*researchbaguettes));}
+    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));}
 
     if (document.getElementById("market-count") != null) {document.getElementById("market-count").textContent = markets;}
-    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = Math.floor(10*markets*(1+0.05*researchbaguettes));}
+    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));}
 
     if (document.getElementById("factory-count") != null) {document.getElementById("factory-count").textContent = factories;}
-    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = Math.floor(100*factories*(1+0.03*researchbaguettes));}
+    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));}
+
+    if (document.getElementById("alchemy-count") != null) {document.getElementById("alchemy-count").textContent = alchemyLabs;}
+    if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));}
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
+    if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
 
     //Update Automated Costs
-    if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(100*Math.pow(bakeryCM, bakeries));}
-    if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(1000*Math.pow(marketCM, markets));}
-    if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(10000*Math.pow(factoryCM, factories));}
-    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = Math.floor(10*Math.pow(labCM, labs));}
+    if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(bakeryCost*Math.pow(bakeryCM, bakeries));}
+    if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(marketCost*Math.pow(marketCM, markets));}
+    if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(factoryCost*Math.pow(factoryCM, factories));}
+    if (document.getElementById("alchemy-cost") != null) {document.getElementById("alchemy-cost").textContent = Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs));}
+
+    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = Math.floor(labCost*Math.pow(labCM, labs));}
+    if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades));}
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(25*Math.pow(clickerCM, clickAmount));}
@@ -220,7 +248,7 @@ function updateUnlockedFeatures()
 
 function buyBakery() 
 {
-    var cost = Math.floor(100*Math.pow(bakeryCM, bakeries));
+    var cost = Math.floor(bakeryCost*Math.pow(bakeryCM, bakeries));
     if (baguettes >= cost)
     {
         baguettes -= cost;
@@ -235,7 +263,7 @@ function buyBakery()
 
 function buyMarket()
 {
-    var cost = Math.floor(1000*Math.pow(marketCM, markets));
+    var cost = Math.floor(marketCost*Math.pow(marketCM, markets));
     if (baguettes >= cost)
     {
         baguettes -= cost;
@@ -250,7 +278,7 @@ function buyMarket()
 
 function buyFactory()
 {
-    var cost = Math.floor(10000*Math.pow(factoryCM, factories));
+    var cost = Math.floor(factoryCost*Math.pow(factoryCM, factories));
     if (baguettes >= cost)
     {
         baguettes -= cost;
@@ -263,9 +291,24 @@ function buyFactory()
     }
 }
 
+function buyAlchemy()
+{
+    var cost = Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        alchemyLabs += 1;
+        playAnimation(document.getElementById("buy-alchemy-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-alchemy-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
-    var cost = Math.floor(10*Math.pow(labCM, labs));
+    var cost = Math.floor(labCost*Math.pow(labCM, labs));
     if (researchbaguettes >= cost)
     {
         researchbaguettes -= cost;
@@ -275,6 +318,21 @@ function buyLab()
     } else {
         //Play 'cannot afford' animation
         playAnimation(document.getElementById("buy-lab-title"), "cantPurchase");
+    }
+}
+
+function buyLabSpeedUpgrade()
+{
+    var cost = Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        labSpeedUpgrades += 1;
+        playAnimation(document.getElementById("buy-labSpeed-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-labSpeed-title"), "cantPurchase");
     }
 }
 
@@ -292,11 +350,24 @@ function save()
         researchPercent: researchPercent,
         researchUnlocked: researchUnlocked,
         factories: factories,
-        labs: labs
+        labs: labs,
+        alchemyLabs: alchemyLabs,
+        labSpeedUpgrades: labSpeedUpgrades
     }
 
     localStorage.setItem("save", JSON.stringify(save));
     console.log("Game Saved!");
+
+    clearInterval(researchInterval);
+
+    researchInterval = setInterval(function generateResearch() {
+        for (let i = 0; i<labs; i++) //Auto Lab research
+        {
+            researchClick();
+        }
+        
+        updateBaguetteCounters();
+    }, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
 }
 
 function load()
@@ -314,25 +385,51 @@ function load()
     if (typeof savedata.researchUnlocked !== "undefined") {researchUnlocked = savedata.researchUnlocked;}else {researchUnlocked = false;}
     if (typeof savedata.factories !== "undefined") {factories = savedata.factories;}else {factories = 0;}
     if (typeof savedata.labs !== "undefined") {labs = savedata.labs;}else {labs = 0;}
+    if (typeof savedata.alchemyLabs !== "undefined") {alchemyLabs = savedata.alchemyLabs;}else {alchemyLabs = 0;}
+    if (typeof savedata.labSpeedUpgrades !== "undefined") {labSpeedUpgrades = savedata.labSpeedUpgrades;}else {labSpeedUpgrades = 0;}
 }
 
+function reset()
+{
+    baguettes = 0;
+    epicbaguettes = 0;
+    bakeryUnlocked = false;
+    bakeries = 0;
+    markets = 0;
+    clickAmount = 1;
+    researchbaguettes = 0;
+    researchPercent = 1;
+    researchUnlocked = false;
+    factories = 0;
+    labs = 0;
+    alchemyLabs = 0;
+    labSpeedUpgrades = 0;
 
+    updateBaguetteCounters();
+    updateUnlockedFeatures();
+}
 
 
 
 //Auto Generation
 setInterval(function generateBaguettes() {
-    baguettes += Math.floor(1*bakeries*(1+0.1*researchbaguettes));
-    baguettes += Math.floor(10*markets*(1+0.05*researchbaguettes));
-    baguettes += Math.floor(100*factories*(1+0.03*researchbaguettes));
+    baguettes += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));
+    baguettes += Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));
+    baguettes += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));
+    baguettes += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
+    updateBaguetteCounters();
+}, 1000);
 
+//Research Generation
+researchInterval = setInterval(function generateResearch() {
     for (let i = 0; i<labs; i++) //Auto Lab research
     {
         researchClick();
     }
 
     updateBaguetteCounters();
-}, 1000);
+}, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
+
 
 //Auto save
 setInterval(function autoSave() {
