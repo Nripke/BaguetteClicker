@@ -37,6 +37,11 @@ var alchemyCM = 1.175;
 var alchemyCost = 180000;
 var alchemyProduction = 1000;
 
+var planets = 0;
+var planetCM = 1.2;
+var planetCost = 3600000;
+var planetProduction = 7900;
+
 var labs = 0;
 var labCM = 2;
 var labCost = 10;
@@ -132,6 +137,10 @@ function updateBaguetteCounters()
     if (document.getElementById("alchemy-count") != null) {document.getElementById("alchemy-count").textContent = alchemyLabs;}
     if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));}
 
+    if (document.getElementById("planet-count") != null) {document.getElementById("planet-count").textContent = planets;}
+    if (document.getElementById("planet-production") != null) {document.getElementById("planet-production").textContent = Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));}
+
+
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
 
@@ -140,6 +149,7 @@ function updateBaguetteCounters()
     if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(marketCost*Math.pow(marketCM, markets));}
     if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(factoryCost*Math.pow(factoryCM, factories));}
     if (document.getElementById("alchemy-cost") != null) {document.getElementById("alchemy-cost").textContent = Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs));}
+    if (document.getElementById("planet-cost") != null) {document.getElementById("planet-cost").textContent = Math.floor(planetCost*Math.pow(planetCM, planets));}
 
     if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = Math.floor(labCost*Math.pow(labCM, labs));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades));}
@@ -306,6 +316,21 @@ function buyAlchemy()
     }
 }
 
+function buyPlanet()
+{
+    var cost = Math.floor(planetCost*Math.pow(planetCM, planets));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        planets += 1;
+        playAnimation(document.getElementById("buy-planet-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-planet-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
     var cost = Math.floor(labCost*Math.pow(labCM, labs));
@@ -336,6 +361,27 @@ function buyLabSpeedUpgrade()
     }
 }
 
+function altarSacrifice()
+{
+    if (baguettes < 2000000)
+    {
+        //Needs to sacrifice at least 2 Million baguettes (To sacrifice 1 million)
+        return;
+    }
+
+    //Sacrifice half of baguettes
+    var bagSac = baguettes/2;
+
+    baguettes -= Math.floor(bagSac);
+
+    var sacResult = Math.floor(Math.log10(bagSac)-5)*.00001;
+
+    epicbaguettes += sacResult;
+    epicbaguettes = Math.round(epicbaguettes*100000)/100000;
+
+    updateBaguetteCounters();
+}
+
 function save()
 {
     //Dictionary of variables
@@ -352,7 +398,8 @@ function save()
         factories: factories,
         labs: labs,
         alchemyLabs: alchemyLabs,
-        labSpeedUpgrades: labSpeedUpgrades
+        labSpeedUpgrades: labSpeedUpgrades,
+        planets: planets
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -387,6 +434,7 @@ function load()
     if (typeof savedata.labs !== "undefined") {labs = savedata.labs;}else {labs = 0;}
     if (typeof savedata.alchemyLabs !== "undefined") {alchemyLabs = savedata.alchemyLabs;}else {alchemyLabs = 0;}
     if (typeof savedata.labSpeedUpgrades !== "undefined") {labSpeedUpgrades = savedata.labSpeedUpgrades;}else {labSpeedUpgrades = 0;}
+    if (typeof savedata.planets !== "undefined") {planets = savedata.planets;}else {planets = 0;}
 }
 
 function reset()
@@ -404,6 +452,7 @@ function reset()
     labs = 0;
     alchemyLabs = 0;
     labSpeedUpgrades = 0;
+    planets = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
@@ -417,6 +466,7 @@ setInterval(function generateBaguettes() {
     baguettes += Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));
     baguettes += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));
     baguettes += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
+    baguettes += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
     updateBaguetteCounters();
 }, 1000);
 

@@ -165,6 +165,21 @@ body, h1, p {
     cursor: pointer;
   }
 
+  .planet-container {
+    position: absolute;
+    top: 150px;
+    left: 2400px;
+    width: 400px;
+  }
+
+  #buy-planet-button {
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+  }
+
   @keyframes furnaceClick {
     0% {
         width: 200px;

@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+
+
+body, h1, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set tileable background image */
+  body {
+    background-image: url('grassTile.png');
+    background-repeat: repeat; /* This ensures the background image is tileable */
+  }
+  
+  /* Style for Baguettes Text */
+  .baguette-text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .epicbaguette-text {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    font-size: 24px;
+    color: purple; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .researchbaguette-text {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    font-size: 24px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+  
+  /* Style for Furnace Image/Button */
+  .altar-container {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the container */
+  }
+  
+  #altar-button {
+    width: 200px; /* Adjust dimensions as needed */
+    height: auto;
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+  }
+
+  @keyframes furnaceClick {
+    0% {
+      width: 200px;
+    }
+    50% {
+      width: 225px;
+    }
+    100% {
+      width: 200px;
+    }
+}
+
+.furnaceClick {
+    animation: furnaceClick 0.3s;
+}
+
+.bakery-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 10px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+  }
+  
+  /* Style for Arrow Button Image */
+  #bakery-button {
+    width: 50px; /* Adjust dimensions as needed */
+    height: auto;
+  }
+
+.bakery-text-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 70px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    font-family: 'Silkscreen', sans-serif;
+}
+
+#bakery-locked-text {
+    color: red;
+    font-size: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+@keyframes cantPurchase {
+    0% {
+        font-size: 100%;
+    }
+    50% {
+        font-size: 120%;
+    }
+    100% {
+        font-size: 100%;
+    }
+}
+
+.cantPurchase {
+    animation: cantPurchase 0.3s;
+}
+
+.tile-title {
+  color: #00ff00;
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 15px;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.buy-clicker-container {
+  position: absolute; /* Fixed positioning */
+  top: 50%; /* Center vertically */
+  left: 80%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+#buy-clicker-button {
+  width: 100px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+#buy-clicker-title {
+  position: absolute;
+}
+
+@keyframes furnaceUpgradeClick {
+  0% {
+    width: 100px;
+  }
+  50% {
+    width: 120px;
+  }
+  100% {
+    width: 100px;
+  }
+}
+
+.furnaceUpgradeClick {
+  animation: furnaceUpgradeClick 0.3s;
+}
