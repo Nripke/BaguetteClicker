@@ -42,8 +42,13 @@ var planetCM = 1.2;
 var planetCost = 3600000;
 var planetProduction = 7900;
 
+var tesseracts = 0;
+var tesseractCM = 1.225;
+var tesseractCost = 800000000;
+var tesseractProduction = 60000;
+
 var labs = 0;
-var labCM = 2;
+var labCM = 1.5;
 var labCost = 10;
 
 var labSpeedCost = 100000;
@@ -66,6 +71,7 @@ Market
 Factory
 Alchemy
 Planet
+Tesseract
 
 */
 
@@ -75,6 +81,20 @@ function loadGame()
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
+}
+
+function format(num) 
+{
+    if (num < 1000) {return num;}
+    const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion"];
+
+    const suffixIndex = Math.floor(Math.log10(Math.abs(num)) / 3);
+    const scaledNum = num / Math.pow(10, suffixIndex * 3);
+
+    const formattedNum = scaledNum.toFixed(3).replace(/\.0$/, ''); // Remove trailing zeroes
+    const suffix = suffixes[suffixIndex];
+
+    return `${formattedNum} ${suffix}`;
 }
 
 function furnaceClick()
@@ -120,46 +140,52 @@ function buyResearchUpgrade()
 function updateBaguetteCounters()
 {
     //Update Baguette Counters
-    document.getElementById("baguette-count").textContent = baguettes;
+    document.getElementById("baguette-count").textContent = format(baguettes);
     document.getElementById("epicbaguette-count").textContent = epicbaguettes;
-    document.getElementById("researchbaguette-count").textContent = researchbaguettes;
+    document.getElementById("researchbaguette-count").textContent = format(researchbaguettes);
+
+    document.getElementById("BPS-count").textContent = format(calculateBPS());
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
-    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));}
+    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = format(Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
     if (document.getElementById("market-count") != null) {document.getElementById("market-count").textContent = markets;}
-    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));}
+    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = format(Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
     if (document.getElementById("factory-count") != null) {document.getElementById("factory-count").textContent = factories;}
-    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));}
+    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = format(Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
     if (document.getElementById("alchemy-count") != null) {document.getElementById("alchemy-count").textContent = alchemyLabs;}
-    if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));}
+    if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = format(Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
     if (document.getElementById("planet-count") != null) {document.getElementById("planet-count").textContent = planets;}
-    if (document.getElementById("planet-production") != null) {document.getElementById("planet-production").textContent = Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));}
+    if (document.getElementById("planet-production") != null) {document.getElementById("planet-production").textContent = format(Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1))));}
+
+    if (document.getElementById("tesseract-count") != null) {document.getElementById("tesseract-count").textContent = tesseracts;}
+    if (document.getElementById("tesseract-production") != null) {document.getElementById("tesseract-production").textContent = format(Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
 
     //Update Automated Costs
-    if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = Math.floor(bakeryCost*Math.pow(bakeryCM, bakeries));}
-    if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = Math.floor(marketCost*Math.pow(marketCM, markets));}
-    if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = Math.floor(factoryCost*Math.pow(factoryCM, factories));}
-    if (document.getElementById("alchemy-cost") != null) {document.getElementById("alchemy-cost").textContent = Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs));}
-    if (document.getElementById("planet-cost") != null) {document.getElementById("planet-cost").textContent = Math.floor(planetCost*Math.pow(planetCM, planets));}
+    if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = format(Math.floor(bakeryCost*Math.pow(bakeryCM, bakeries)));}
+    if (document.getElementById("market-cost") != null) {document.getElementById("market-cost").textContent = format(Math.floor(marketCost*Math.pow(marketCM, markets)));}
+    if (document.getElementById("factory-cost") != null) {document.getElementById("factory-cost").textContent = format(Math.floor(factoryCost*Math.pow(factoryCM, factories)));}
+    if (document.getElementById("alchemy-cost") != null) {document.getElementById("alchemy-cost").textContent = format(Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs)));}
+    if (document.getElementById("planet-cost") != null) {document.getElementById("planet-cost").textContent = format(Math.floor(planetCost*Math.pow(planetCM, planets)));}
+    if (document.getElementById("tesseract-cost") != null) {document.getElementById("tesseract-cost").textContent = format(Math.floor(tesseractCost*Math.pow(tesseractCM, tesseracts)));}
 
-    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = Math.floor(labCost*Math.pow(labCM, labs));}
-    if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades));}
+    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
+    if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
 
     //Update Furnace Information
-    if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = Math.floor(25*Math.pow(clickerCM, clickAmount));}
+    if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
 
     //Update Research Information
-    if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = Math.floor(100*Math.pow(researchCM, researchPercent));}
-    if (document.getElementById("research-cost") != null) {document.getElementById("research-cost").textContent = Math.floor(Math.pow(10, researchPercent));}
+    if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
+    if (document.getElementById("research-cost") != null) {document.getElementById("research-cost").textContent = format(Math.floor(Math.pow(10, researchPercent)));}
     if (document.getElementById("research-percent") != null) {document.getElementById("research-percent").textContent = researchPercent + "%";}
 }
 
@@ -331,6 +357,21 @@ function buyPlanet()
     }
 }
 
+function buyTesseract()
+{
+    var cost = Math.floor(tesseractCost*Math.pow(tesseractCM, tesseracts));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        tesseracts += 1;
+        playAnimation(document.getElementById("buy-tesseract-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-tesseract-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
     var cost = Math.floor(labCost*Math.pow(labCM, labs));
@@ -399,7 +440,8 @@ function save()
         labs: labs,
         alchemyLabs: alchemyLabs,
         labSpeedUpgrades: labSpeedUpgrades,
-        planets: planets
+        planets: planets,
+        tesseracts: tesseracts
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -435,6 +477,7 @@ function load()
     if (typeof savedata.alchemyLabs !== "undefined") {alchemyLabs = savedata.alchemyLabs;}else {alchemyLabs = 0;}
     if (typeof savedata.labSpeedUpgrades !== "undefined") {labSpeedUpgrades = savedata.labSpeedUpgrades;}else {labSpeedUpgrades = 0;}
     if (typeof savedata.planets !== "undefined") {planets = savedata.planets;}else {planets = 0;}
+    if (typeof savedata.tesseracts !== "undefined") {tesseracts = savedata.tesseracts;}else {tesseracts = 0;}
 }
 
 function reset()
@@ -453,20 +496,30 @@ function reset()
     alchemyLabs = 0;
     labSpeedUpgrades = 0;
     planets = 0;
+    tesseracts = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
 }
 
+function calculateBPS()
+{
+    var sum = 0;
+    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1)));
+
+    return sum;
+}
 
 
 //Auto Generation
 setInterval(function generateBaguettes() {
-    baguettes += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));
-    baguettes += Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));
-    baguettes += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));
-    baguettes += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
-    baguettes += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
+    baguettes += calculateBPS();
+
     updateBaguetteCounters();
 }, 1000);
 
