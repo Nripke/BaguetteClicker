@@ -244,7 +244,6 @@ body, h1, p {
   transform: translate(-50%, -50%); /* Center the container */
   width: 400px;
   height: 100px;
-  cursor: pointer; /* Change cursor to indicate it's clickable */
   background-color: rgb(133, 75, 42);
   border: rgb(99, 56, 31) solid 5px;
 }

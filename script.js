@@ -16,6 +16,7 @@ var researchbaguettes = 0;
 
 var bakeryUnlocked = false;
 var researchUnlocked = false;
+var altarUnlocked = false;
 
 var bakeries = 0;
 var bakeryCM = 1.1;
@@ -54,8 +55,8 @@ var labCost = 10;
 var labSpeedCost = 100000;
 var labSpeed = 1000; //In Milliseconds
 var labSpeedUpgrades = 0;
-var labSpeedCM = 1.4;
-var labSpeedMultiplier = 0.99;
+var labSpeedCM = 1.35;
+var labSpeedMultiplier = 0.9875;
 
 var clickAmount = 1;
 var clickerCM = 1.2;
@@ -245,6 +246,31 @@ function goResearch()
     }
 }
 
+function goAltar()
+{
+    if (altarUnlocked)
+    {
+        save();
+        window.location.href = 'altar.html';
+        return;
+    }
+
+    //If bakery isnt unlocked, allow purchase
+
+    if (baguettes >= 1000000)
+    {
+        baguettes -= 1000000;
+        altarUnlocked = true;
+
+        updateBaguetteCounters();
+        updateUnlockedFeatures();
+
+        save();
+    }else {
+        playAnimation(document.getElementById("altar-locked-text"), "cantPurchase");
+    }
+}
+
 function researchClick()
 {
     let randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -279,6 +305,12 @@ function updateUnlockedFeatures()
     {
         document.getElementById("research-locked-text").textContent = "Go to Research";
         document.getElementById("research-locked-text").style.color = "#00ff00";
+    }
+
+    if (altarUnlocked && document.getElementById("altar-locked-text") != null)
+    {
+        document.getElementById("altar-locked-text").textContent = "Go to Epic Altar";
+        document.getElementById("altar-locked-text").style.color = "#00ff00";
     }
 }
 
@@ -421,6 +453,8 @@ function altarSacrifice()
     epicbaguettes = Math.round(epicbaguettes*100000)/100000;
 
     updateBaguetteCounters();
+
+    playAnimation(document.getElementById("altar-button"), "furnaceClick");
 }
 
 function save()
@@ -441,7 +475,8 @@ function save()
         alchemyLabs: alchemyLabs,
         labSpeedUpgrades: labSpeedUpgrades,
         planets: planets,
-        tesseracts: tesseracts
+        tesseracts: tesseracts,
+        altarUnlocked: altarUnlocked
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -478,6 +513,7 @@ function load()
     if (typeof savedata.labSpeedUpgrades !== "undefined") {labSpeedUpgrades = savedata.labSpeedUpgrades;}else {labSpeedUpgrades = 0;}
     if (typeof savedata.planets !== "undefined") {planets = savedata.planets;}else {planets = 0;}
     if (typeof savedata.tesseracts !== "undefined") {tesseracts = savedata.tesseracts;}else {tesseracts = 0;}
+    if (typeof savedata.altarUnlocked !== "undefined") {altarUnlocked = savedata.altarUnlocked;}else {altarUnlocked = false;}
 }
 
 function reset()
@@ -497,6 +533,7 @@ function reset()
     labSpeedUpgrades = 0;
     planets = 0;
     tesseracts = 0;
+    altarUnlocked = false;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();

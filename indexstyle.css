@@ -206,3 +206,37 @@ body, h1, p {
   font-size: 15px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
 }
+
+
+
+.altar-container {
+  position: fixed; /* Fixed positioning */
+  top: 50%; /* 10px from the bottom */
+  left: 30px; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+}
+
+#altar-arrow {
+  rotate: 90deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.altar-text-container {
+  position: fixed; /* Fixed positioning */
+  color: #00ff00;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  top: 50%; /* 10px from the bottom */
+  left: 10px; /* Center horizontally */
+  transform: translateY(-50%); /* Center the container */
+  z-index: 2;
+}
+
+#altar-locked-text {
+  color: red;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
