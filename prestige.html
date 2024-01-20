@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baguette Clicker</title>
+    <link rel="stylesheet" href="./prestigestyle.css">
+    <script src="./script.js"></script>
+</head>
+
+
+<body onload="loadGame()">
+
+<div class="baguette-text">Baguettes: <span id="baguette-count">0</span></div>
+<div class="epicbaguette-text">Epic Baguettes: <span id="epicbaguette-count">0</span></div>
+<div class="researchbaguette-text">Research Baguettes: <span id="researchbaguette-count">0</span></div>
+
+<div class="BPS-text">BPS: <span id="BPS-count">0</span></div>
+
+<div class="altar-text-container">
+  <span> Go to Epic Altar</span>
+</div>
+
+<div class="altar-container">
+  <img src="./arrowDown.png" alt="Arrow Button" id="altar-arrow" onclick="goAltar()">
+</div>
+
+<div class="prestige-info-container">
+  <span class="info-text-1">To prestige, you will sacrifice all of your progress to earn divine baguettes. Each divine baguette provides a <span id="highlight">+5% boost</span> in BPS, and allows you to unlock more features. Proceed with caution.</span>
+</div>
+</body>
+</html>

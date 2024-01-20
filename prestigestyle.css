@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+
+
+body, h1, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set tileable background image */
+  body {
+    background-image: url('grassTile.png');
+    background-repeat: repeat; /* This ensures the background image is tileable */
+  }
+  
+  /* Style for Baguettes Text */
+  .baguette-text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 35px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .BPS-text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .epicbaguette-text {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    color: purple; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 35px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .researchbaguette-text {
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 35px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+  
+
+  @keyframes furnaceClick {
+    0% {
+      width: 200px;
+    }
+    50% {
+      width: 225px;
+    }
+    100% {
+      width: 200px;
+    }
+}
+
+.furnaceClick {
+    animation: furnaceClick 0.3s;
+}
+
+.bakery-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 10px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+  }
+  
+  /* Style for Arrow Button Image */
+  #bakery-button {
+    width: 50px; /* Adjust dimensions as needed */
+    height: auto;
+  }
+
+.bakery-text-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 70px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    font-family: 'Silkscreen', sans-serif;
+}
+
+#bakery-locked-text {
+    color: red;
+    font-size: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+@keyframes cantPurchase {
+    0% {
+        font-size: 100%;
+    }
+    50% {
+        font-size: 120%;
+    }
+    100% {
+        font-size: 100%;
+    }
+}
+
+.cantPurchase {
+    animation: cantPurchase 0.3s;
+}
+
+.tile-title {
+  color: #ffffff;
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 15px;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+.buy-clicker-container {
+  position: absolute; /* Fixed positioning */
+  top: 50%; /* Center vertically */
+  left: 80%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+#buy-clicker-button {
+  width: 100px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+#buy-clicker-title {
+  position: absolute;
+}
+
+@keyframes furnaceUpgradeClick {
+  0% {
+    width: 100px;
+  }
+  50% {
+    width: 120px;
+  }
+  100% {
+    width: 100px;
+  }
+}
+
+.furnaceUpgradeClick {
+  animation: furnaceUpgradeClick 0.3s;
+}
+
+.altar-container {
+  position: fixed; /* Fixed positioning */
+  top: 50%; /* 10px from the bottom */
+  right: 5px; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+}
+
+#altar-arrow {
+  rotate: 270deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.altar-text-container {
+  position: fixed; /* Fixed positioning */
+  color: #00ff00;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  top: 50%; /* 10px from the bottom */
+  right: 10px; /* Center horizontally */
+  transform: translateY(-50%); /* Center the container */
+  z-index: 2;
+}
+
+.altar-info-container {
+  position: absolute; /* Fixed positioning */
+  bottom: 50px; /* Center horizontally */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  height: 120px;
+  background-color: rgb(119, 125, 131);
+  border: rgb(65, 58, 54) solid 5px;
+}
+
+.prestige-info-container {
+    position: absolute; /* Fixed positioning */
+    top: 300px; /* Center horizontally */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 800px;
+    height: auto;
+    background-color: rgb(119, 125, 131);
+  border: rgb(65, 58, 54) solid 5px;
+}
+
+.info-text-1 {
+    color: #ffffff;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  #highlight {
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }

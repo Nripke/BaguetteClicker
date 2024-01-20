@@ -1,7 +1,10 @@
 var baguettes = 0;
 var epicbaguettes = 0;
 var researchbaguettes = 0;
+var divinebaguettes = 0;
+var baguettesGenerated = 0;
 
+var prestiges = 0;
 /*
     Research Baguettes are hard to obtain, but provide massive boosts to production
     For each research baguette you have, they provide a passive boost to your furnace, and bakery buildings
@@ -39,14 +42,19 @@ var alchemyCost = 180000;
 var alchemyProduction = 1000;
 
 var planets = 0;
-var planetCM = 1.2;
+var planetCM = 1.21;
 var planetCost = 3600000;
 var planetProduction = 7900;
 
 var tesseracts = 0;
-var tesseractCM = 1.225;
+var tesseractCM = 1.25;
 var tesseractCost = 800000000;
 var tesseractProduction = 60000;
+
+var galaxies = 0;
+var galaxyCM = 1.3;
+var galaxyCost = 24000000000;
+var galaxyProduction = 435000;
 
 var labs = 0;
 var labCM = 1.5;
@@ -98,9 +106,31 @@ function format(num)
     return `${formattedNum} ${suffix}`;
 }
 
+function prestige()
+{
+    //Calculate divine baguettes
+    var dB = Math.floor(Math.pow(baguettesGenerated/1000000000, 0.5));
+
+    if (dB <= divinebaguettes)
+    {
+        //Can't prestige if you get no divine baguettes
+        return;
+    }
+
+    dB -= divinebaguettes;
+    divinebaguettes += dB;
+    prestiges += 1;
+
+    reset();
+    save();
+    goFurnace();
+}
+
+
 function furnaceClick()
 {
     baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes));
+    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes));
 
     updateBaguetteCounters();
 
@@ -166,6 +196,9 @@ function updateBaguetteCounters()
     if (document.getElementById("tesseract-count") != null) {document.getElementById("tesseract-count").textContent = tesseracts;}
     if (document.getElementById("tesseract-production") != null) {document.getElementById("tesseract-production").textContent = format(Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1))));}
 
+    if (document.getElementById("galaxy-count") != null) {document.getElementById("galaxy-count").textContent = galaxies;}
+    if (document.getElementById("galaxy-production") != null) {document.getElementById("galaxy-production").textContent = format(Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1))));}
+
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
@@ -177,6 +210,7 @@ function updateBaguetteCounters()
     if (document.getElementById("alchemy-cost") != null) {document.getElementById("alchemy-cost").textContent = format(Math.floor(alchemyCost*Math.pow(alchemyCM, alchemyLabs)));}
     if (document.getElementById("planet-cost") != null) {document.getElementById("planet-cost").textContent = format(Math.floor(planetCost*Math.pow(planetCM, planets)));}
     if (document.getElementById("tesseract-cost") != null) {document.getElementById("tesseract-cost").textContent = format(Math.floor(tesseractCost*Math.pow(tesseractCM, tesseracts)));}
+    if (document.getElementById("galaxy-cost") != null) {document.getElementById("galaxy-cost").textContent = format(Math.floor(galaxyCost*Math.pow(galaxyCM, galaxies)));}
 
     if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
@@ -404,6 +438,21 @@ function buyTesseract()
     }
 }
 
+function buyGalaxy()
+{
+    var cost = Math.floor(galaxyCost*Math.pow(galaxyCM, galaxies));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        galaxies += 1;
+        playAnimation(document.getElementById("buy-galaxy-button"), "marketClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-galaxy-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
     var cost = Math.floor(labCost*Math.pow(labCM, labs));
@@ -476,7 +525,11 @@ function save()
         labSpeedUpgrades: labSpeedUpgrades,
         planets: planets,
         tesseracts: tesseracts,
-        altarUnlocked: altarUnlocked
+        altarUnlocked: altarUnlocked,
+        galaxies: galaxies,
+        prestiges: prestiges,
+        divinebaguettes: divinebaguettes,
+        baguettesGenerated: baguettesGenerated
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -514,6 +567,10 @@ function load()
     if (typeof savedata.planets !== "undefined") {planets = savedata.planets;}else {planets = 0;}
     if (typeof savedata.tesseracts !== "undefined") {tesseracts = savedata.tesseracts;}else {tesseracts = 0;}
     if (typeof savedata.altarUnlocked !== "undefined") {altarUnlocked = savedata.altarUnlocked;}else {altarUnlocked = false;}
+    if (typeof savedata.galaxies !== "undefined") {galaxies = savedata.galaxies;}else {galaxies = 0;}
+    if (typeof savedata.prestiges !== "undefined") {prestiges = savedata.prestiges;}else {prestiges = 0;}
+    if (typeof savedata.divinebaguettes !== "undefined") {divinebaguettes = savedata.divinebaguettes;}else {divinebaguettes = 0;}
+    if (typeof savedata.baguettesGenerated !== "undefined") {baguettesGenerated = savedata.baguettesGenerated;}else {baguettesGenerated = 0;}
 }
 
 function reset()
@@ -534,6 +591,8 @@ function reset()
     planets = 0;
     tesseracts = 0;
     altarUnlocked = false;
+    galaxies = 0;
+    baguettesGenerated = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
@@ -548,7 +607,10 @@ function calculateBPS()
     sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
     sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
     sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1)));
 
+    //Divine Baguette Boost
+    sum *= 1+.05*divinebaguettes; //Each gives +5% boost to BPS
     return sum;
 }
 
@@ -556,6 +618,7 @@ function calculateBPS()
 //Auto Generation
 setInterval(function generateBaguettes() {
     baguettes += calculateBPS();
+    baguettesGenerated += calculateBPS();
 
     updateBaguetteCounters();
 }, 1000);
