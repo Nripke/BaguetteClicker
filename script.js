@@ -176,6 +176,7 @@ function updateBaguetteCounters()
     document.getElementById("researchbaguette-count").textContent = format(researchbaguettes);
 
     document.getElementById("BPS-count").textContent = format(calculateBPS());
+    document.getElementById("RBoost-count").textContent = calculateResearchBoost();
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
@@ -612,6 +613,30 @@ function calculateBPS()
     //Divine Baguette Boost
     sum *= 1+.05*divinebaguettes; //Each gives +5% boost to BPS
     return sum;
+}
+
+function calculateBPSVariable(research, epic, divine)
+{
+    var sum = 0;
+    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(research, epic+1)));
+    sum += Math.floor(marketProduction*markets*(1+0.05*Math.pow(research, epic+1)));
+    sum += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(research, epic+1)));
+    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(research, epic+1)));
+    sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(research, epic+1)));
+    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(research, epic+1)));
+    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(research, epic+1)));
+
+    //Divine Baguette Boost
+    sum *= 1+.05*divine; //Each gives +5% boost to BPS
+    return sum;
+}
+
+function calculateResearchBoost()
+{
+    var ratio = calculateBPSVariable(researchbaguettes, epicbaguettes, divinebaguettes)/calculateBPSVariable(0, epicbaguettes, divinebaguettes);
+    ratio = Math.floor(ratio*100)/100;
+
+    return ratio;
 }
 
 
