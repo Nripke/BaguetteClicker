@@ -72,6 +72,9 @@ var clickerCM = 1.2;
 var researchPercent = 1; //Any number less than this will earn a research baguette from ranNum from 1-100
 var researchCM = 100;
 
+//Interesting stat variables:
+var timePlayed = 0; //In seconds
+
 /*
 PROGRESSION:
 
@@ -218,6 +221,7 @@ function updateBaguetteCounters()
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
+    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes)));}
 
     //Update Research Information
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
@@ -497,7 +501,7 @@ function altarSacrifice()
 
     baguettes -= Math.floor(bagSac);
 
-    var sacResult = Math.floor(Math.log10(bagSac)-5)*.00001;
+    var sacResult = Math.floor(Math.floor(Math.log10(bagSac)/3)-1)*.00001;
 
     epicbaguettes += sacResult;
     epicbaguettes = Math.round(epicbaguettes*100000)/100000;
@@ -633,6 +637,7 @@ function calculateBPSVariable(research, epic, divine)
 
 function calculateResearchBoost()
 {
+    if (calculateBPSVariable(0, epicbaguettes, divinebaguettes) == 0) {return 1;}
     var ratio = calculateBPSVariable(researchbaguettes, epicbaguettes, divinebaguettes)/calculateBPSVariable(0, epicbaguettes, divinebaguettes);
     ratio = Math.floor(ratio*100)/100;
 
@@ -644,6 +649,7 @@ function calculateResearchBoost()
 setInterval(function generateBaguettes() {
     baguettes += calculateBPS();
     baguettesGenerated += calculateBPS();
+    timePlayed++;
 
     updateBaguetteCounters();
 }, 1000);
