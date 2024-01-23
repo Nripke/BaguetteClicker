@@ -16,12 +16,63 @@ body, h1, p {
   .baguette-text {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 60px;
     color: white; /* Or any color you prefer */
     z-index: 2; /* Ensures it appears above other elements */
     font-family: 'Silkscreen', sans-serif;
-    font-size: 35px;
+    font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .baguette-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #baguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  .epicbaguette-img {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 35px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #epicbaguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  .researchbaguette-img {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    width: 35px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #researchbaguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
   }
 
   .BPS-text {
@@ -37,23 +88,23 @@ body, h1, p {
 
   .epicbaguette-text {
     position: absolute;
-    top: 50px;
-    left: 10px;
+    top: 55px;
+    left: 60px;
     color: purple; /* Or any color you prefer */
     z-index: 2; /* Ensures it appears above other elements */
     font-family: 'Silkscreen', sans-serif;
-    font-size: 35px;
+    font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
 
   .researchbaguette-text {
     position: absolute;
-    top: 90px;
-    left: 10px;
+    top: 100px;
+    left: 60px;
     color: rgb(56, 186, 238); /* Or any color you prefer */
     z-index: 2; /* Ensures it appears above other elements */
     font-family: 'Silkscreen', sans-serif;
-    font-size: 35px;
+    font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
   
@@ -239,4 +290,35 @@ body, h1, p {
   color: red;
   font-size: 15px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+
+.tooltip {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Style for the tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  /*padding: 5px;*/
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 150%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when hovering over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
