@@ -74,6 +74,7 @@ var researchCM = 100;
 
 //Interesting stat variables:
 var timePlayed = 0; //In seconds
+var clicks = 0;
 
 /*
 PROGRESSION:
@@ -134,7 +135,7 @@ function furnaceClick()
 {
     baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes));
     baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes));
-
+    clicks++;
     updateBaguetteCounters();
 
     //Play Animation
@@ -180,6 +181,8 @@ function updateBaguetteCounters()
 
     document.getElementById("BPS-count").textContent = format(calculateBPS());
     document.getElementById("RBoost-count").textContent = calculateResearchBoost();
+
+    if (document.getElementById("TP-count") != null) {document.getElementById("TP-count").textContent = timePlayed;}
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
@@ -495,6 +498,7 @@ function altarSacrifice()
         //Needs to sacrifice at least 2 Million baguettes (To sacrifice 1 million)
         return;
     }
+    clicks++;
 
     //Sacrifice half of baguettes
     var bagSac = baguettes/2;
@@ -534,7 +538,9 @@ function save()
         galaxies: galaxies,
         prestiges: prestiges,
         divinebaguettes: divinebaguettes,
-        baguettesGenerated: baguettesGenerated
+        baguettesGenerated: baguettesGenerated,
+        timePlayed: timePlayed,
+        clicks: clicks
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -576,6 +582,8 @@ function load()
     if (typeof savedata.prestiges !== "undefined") {prestiges = savedata.prestiges;}else {prestiges = 0;}
     if (typeof savedata.divinebaguettes !== "undefined") {divinebaguettes = savedata.divinebaguettes;}else {divinebaguettes = 0;}
     if (typeof savedata.baguettesGenerated !== "undefined") {baguettesGenerated = savedata.baguettesGenerated;}else {baguettesGenerated = 0;}
+    if (typeof savedata.timePlayed !== "undefined") {timePlayed = savedata.timePlayed;}else {timePlayed = 0;}
+    if (typeof savedata.clicks !== "undefined") {clicks = savedata.clicks;}else {clicks = 0;}
 }
 
 function reset()

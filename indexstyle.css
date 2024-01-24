@@ -147,6 +147,18 @@ body, h1, p {
     width: 250px;
   }
 
+
+  .time-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
   @keyframes furnaceClick {
     0% {
       width: 200px;
