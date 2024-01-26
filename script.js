@@ -156,8 +156,8 @@ function prestige()
 
 function furnaceClick()
 {
-    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10);
-    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10);
+    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10);
+    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10);
     clicks++;
     updateBaguetteCounters();
 
@@ -247,7 +247,7 @@ function updateBaguetteCounters()
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
-    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10));}
+    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10));}
 
     //Update Research Information
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
