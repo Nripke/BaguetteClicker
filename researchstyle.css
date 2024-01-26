@@ -309,3 +309,15 @@ body, h1, p {
   background-color: rgb(133, 75, 42);
   border: rgb(99, 56, 31) solid 5px;
 }
+
+.db-text {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: rgb(255, 215, 0); /* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  visibility: hidden;
+}

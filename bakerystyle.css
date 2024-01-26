@@ -371,3 +371,15 @@ body, h1, p {
   top: 50px;
   z-index: 2;
 }
+
+.db-text {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: rgb(255, 215, 0); /* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  visibility: hidden;
+}

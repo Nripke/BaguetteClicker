@@ -287,3 +287,29 @@ body, h1, p {
     z-index: 2;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
+
+.prestige-container {
+  position: absolute; /* Fixed positioning */
+    top: 600px; /* Center horizontally */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 800px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#db-count {
+  color: rgb(255, 215, 0);
+}
+
+.db-text {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: rgb(255, 215, 0); /* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  visibility: hidden;
+}

@@ -263,13 +263,55 @@ body, h1, p {
   z-index: 2;
 }
 
+.prestige-container {
+  position: fixed; /* Fixed positioning */
+  top: 50%; /* 10px from the bottom */
+  left: 30px; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+}
+
+#prestige-arrow {
+  rotate: 90deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.prestige-text-container {
+  position: fixed; /* Fixed positioning */
+  color: #00ff00;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  top: 50%; /* 10px from the bottom */
+  left: 10px; /* Center horizontally */
+  transform: translateY(-50%); /* Center the container */
+  z-index: 2;
+}
+
 .altar-info-container {
   position: absolute; /* Fixed positioning */
   bottom: 50px; /* Center horizontally */
   left: 50%;
   transform: translate(-50%, -50%); /* Center the container */
   width: 400px;
-  height: 120px;
+  height: auto;
   background-color: rgb(119, 125, 131);
   border: rgb(65, 58, 54) solid 5px;
+}
+
+#altar-cost {
+  color: #00ff00;
+}
+
+.db-text {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: rgb(255, 215, 0); /* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  visibility: hidden;
 }

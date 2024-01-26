@@ -21,6 +21,7 @@
   
 <div class="BPS-text">BPS: <span id="BPS-count">0</span></div>
 <div class="RBoost-text">RB Boost: <span id="RBoost-count">0</span>x</div>
+<div class="db-text" id="db-text">Divine Baguettes: <span id="db-total">0</span></div>
 
 <div class="altar-container">
   <img src="./altar.png" alt="Altar" id="altar-button" onclick="altarSacrifice()">
@@ -35,8 +36,16 @@
   <img src="./arrowDown.png" alt="Arrow Button" id="furnace-arrow" onclick="goFurnace()">
 </div>
 
+<div class="prestige-text-container">
+  <span> Go to Prestige</span>
+</div>
+
+<div class="prestige-container">
+  <img src="./arrowDown.png" alt="Arrow Button" id="prestige-arrow" onclick="goPrestige()">
+</div>
+
 <div class="altar-info-container">
-  <span class="tile-title explainer-text1"> The Baguette Gods take generous offers of at least 1 Million Baguettes. Each sacrifice, they take 50% of your total baguettes, and in return, give you a small amount of epic baguettes.</span>
+  <span class="tile-title explainer-text1"> The Baguette Gods will take generous offers of copious baguettes, and in return, will give you epic baguettes which boost your research baguettes. The cost of sacrificing is currently: <span id="altar-cost">0</span> Baguettes</span>
 </div>
 </body>
 </html>

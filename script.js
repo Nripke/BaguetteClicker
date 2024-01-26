@@ -110,10 +110,33 @@ function format(num)
     return `${formattedNum} ${suffix}`;
 }
 
+function divineBaguetteCalculator()
+{
+    var db = Math.floor(Math.pow(baguettesGenerated/1000000000, 0.5));
+    if (db <= 0) {return 0;}
+
+    return db;
+}
+
+function checkPrestige()
+{
+    var dB = divineBaguetteCalculator();
+
+    if (dB <= divinebaguettes)
+    {
+        //Can't prestige if you get no divine baguettes
+        return;
+    }
+    //"Are you sure you want to sacrifice EVERYTHING for " + dB + " Divine Baguettes?"
+    var confirm = window.confirm("Are you sure you want to sacrifice EVERYTHING for " + dB + " Divine Baguettes?");
+    if (confirm == true) {prestige();}
+}
+
 function prestige()
 {
+    
     //Calculate divine baguettes
-    var dB = Math.floor(Math.pow(baguettesGenerated/1000000000, 0.5));
+    var dB = divineBaguetteCalculator();
 
     if (dB <= divinebaguettes)
     {
@@ -133,8 +156,8 @@ function prestige()
 
 function furnaceClick()
 {
-    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes));
-    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes));
+    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10);
+    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10);
     clicks++;
     updateBaguetteCounters();
 
@@ -224,12 +247,19 @@ function updateBaguetteCounters()
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
-    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes)));}
+    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(divinebaguettes/10));}
 
     //Update Research Information
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
     if (document.getElementById("research-cost") != null) {document.getElementById("research-cost").textContent = format(Math.floor(Math.pow(10, researchPercent)));}
     if (document.getElementById("research-percent") != null) {document.getElementById("research-percent").textContent = researchPercent + "%";}
+
+    //Update Altar Information
+    if (document.getElementById("altar-cost") != null) {document.getElementById("altar-cost").textContent = format(Math.floor(altarCost()));}
+
+    //Update Prestige Information
+    if (document.getElementById("db-count") != null) {document.getElementById("db-count").textContent = format(divineBaguetteCalculator());}
+    if (document.getElementById("db-total") != null) {document.getElementById("db-total").textContent = format(divinebaguettes);}
 }
 
 function goFurnace()
@@ -313,6 +343,13 @@ function goAltar()
     }
 }
 
+function goPrestige()
+{
+    save();
+    window.location.href = 'prestige.html';
+    return;
+}
+
 function researchClick()
 {
     let randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -353,6 +390,11 @@ function updateUnlockedFeatures()
     {
         document.getElementById("altar-locked-text").textContent = "Go to Epic Altar";
         document.getElementById("altar-locked-text").style.color = "#00ff00";
+    }
+
+    if (prestiges >= 1 && document.getElementById("db-text") != null)
+    {
+        document.getElementById("db-text").style.visibility = "visible";
     }
 }
 
@@ -493,14 +535,31 @@ function buyLabSpeedUpgrade()
 
 function altarSacrifice()
 {
-    if (baguettes < 2000000)
+    /*
+    * 0 - Base Cost: 1 Million
+    * 0.1 - Base Cost: 1 Billion
+    * 0.2 - Base Cost: 1 Trillion
+    * ...
+    * 
+    * Each purchase gives 0.0001 --> Takes one thousand purchases to reach next base cost
+    */
+    var totalCost = altarCost();
+    
+    if (baguettes < totalCost)
     {
-        //Needs to sacrifice at least 2 Million baguettes (To sacrifice 1 million)
         return;
     }
-    clicks++;
 
+    clicks++;
+    baguettes -= Math.floor(totalCost);
+    epicbaguettes += 0.0001;
+    epicbaguettes = Math.round(epicbaguettes*10000)/10000;
+
+    updateBaguetteCounters();
+
+    playAnimation(document.getElementById("altar-button"), "furnaceClick");
     //Sacrifice half of baguettes
+    /*
     var bagSac = baguettes/2;
 
     baguettes -= Math.floor(bagSac);
@@ -512,7 +571,15 @@ function altarSacrifice()
 
     updateBaguetteCounters();
 
-    playAnimation(document.getElementById("altar-button"), "furnaceClick");
+    playAnimation(document.getElementById("altar-button"), "furnaceClick");*/
+}
+
+function altarCost()
+{
+    var baseCost = 1000000*Math.pow(1000,Math.floor(epicbaguettes*10));
+    var inBetween = epicbaguettes*10000 - 1000*Math.floor(epicbaguettes*10);
+
+    return baseCost*(inBetween+1);
 }
 
 function save()
@@ -623,7 +690,7 @@ function calculateBPS()
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1)));
 
     //Divine Baguette Boost
-    sum *= 1+.05*divinebaguettes; //Each gives +5% boost to BPS
+    sum *= 1+.01*divinebaguettes; //Each gives +1% boost to BPS
     return sum;
 }
 
@@ -639,7 +706,7 @@ function calculateBPSVariable(research, epic, divine)
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(research, epic+1)));
 
     //Divine Baguette Boost
-    sum *= 1+.05*divine; //Each gives +5% boost to BPS
+    sum *= 1+.01*divine; //Each gives +1% boost to BPS
     return sum;
 }
 
