@@ -281,6 +281,24 @@ body, h1, p {
     cursor: pointer;
     transform: translate(13%, 13%);
   }
+
+  .blackhole-container {
+    position: absolute;
+    top: 150px;
+    left: 4200px;
+    width: 400px;
+    visibility: hidden;
+  }
+
+  #buy-blackhole-button {
+    position: absolute;
+    left: 0%;
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+    transform: translate(13%, 13%);
+  }
+
   @keyframes furnaceClick {
     0% {
         width: 200px;
@@ -373,7 +391,7 @@ body, h1, p {
 }
 
 .db-text {
-  position: absolute;
+  position: fixed;
   top: 90px;
   right: 10px;
   color: rgb(255, 215, 0); /* Or any color you prefer */

@@ -56,6 +56,11 @@ var galaxyCM = 1.3;
 var galaxyCost = 24000000000;
 var galaxyProduction = 435000;
 
+var blackholes = 0;
+var blackholeCM = 1.36;
+var blackholeCost = 1000000000000;
+var blackholeProduction = 3500000;
+
 var labs = 0;
 var labCM = 1.5;
 var labCost = 10;
@@ -128,7 +133,7 @@ function checkPrestige()
         return;
     }
     //"Are you sure you want to sacrifice EVERYTHING for " + dB + " Divine Baguettes?"
-    var confirm = window.confirm("Are you sure you want to sacrifice EVERYTHING for " + dB + " Divine Baguettes?");
+    var confirm = window.confirm("Are you sure you want to sacrifice EVERYTHING for " + (dB-divinebaguettes) + " Divine Baguettes?");
     if (confirm == true) {prestige();}
 }
 
@@ -156,8 +161,8 @@ function prestige()
 
 function furnaceClick()
 {
-    baguettes += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10);
-    baguettesGenerated += Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10);
+    baguettes += Math.floor(clickAmount*(1+.15*Math.pow(researchbaguettes, epicbaguettes+1)))*Math.floor(1+divinebaguettes/10);
+    baguettesGenerated += Math.floor(clickAmount*(1+.15*Math.pow(researchbaguettes, epicbaguettes+1)))*Math.floor(1+divinebaguettes/10);
     clicks++;
     updateBaguetteCounters();
 
@@ -197,6 +202,9 @@ function buyResearchUpgrade()
 
 function updateBaguetteCounters()
 {
+    var resBoost = Math.pow(researchbaguettes, epicbaguettes+1);
+    var divBoost = 1+0.01*divinebaguettes;
+
     //Update Baguette Counters
     document.getElementById("baguette-count").textContent = format(baguettes);
     document.getElementById("epicbaguette-count").textContent = epicbaguettes;
@@ -209,25 +217,28 @@ function updateBaguetteCounters()
 
     //Update Automated Counters
     if (document.getElementById("bakery-count") != null) {document.getElementById("bakery-count").textContent = bakeries;}
-    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = format(Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("bakery-production") != null) {document.getElementById("bakery-production").textContent = format(Math.floor(bakeryProduction*bakeries*(1+0.1*resBoost)*divBoost));}
 
     if (document.getElementById("market-count") != null) {document.getElementById("market-count").textContent = markets;}
-    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = format(Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("market-production") != null) {document.getElementById("market-production").textContent = format(Math.floor(marketProduction*markets*(1+0.05*resBoost)*divBoost));}
 
     if (document.getElementById("factory-count") != null) {document.getElementById("factory-count").textContent = factories;}
-    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = format(Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("factory-production") != null) {document.getElementById("factory-production").textContent = format(Math.floor(factoryProduction*factories*(1+0.03*resBoost)*divBoost));}
 
     if (document.getElementById("alchemy-count") != null) {document.getElementById("alchemy-count").textContent = alchemyLabs;}
-    if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = format(Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("alchemy-production") != null) {document.getElementById("alchemy-production").textContent = format(Math.floor(alchemyProduction*alchemyLabs*(1+0.02*resBoost)*divBoost));}
 
     if (document.getElementById("planet-count") != null) {document.getElementById("planet-count").textContent = planets;}
-    if (document.getElementById("planet-production") != null) {document.getElementById("planet-production").textContent = format(Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("planet-production") != null) {document.getElementById("planet-production").textContent = format(Math.floor(planetProduction*planets*(1+0.015*resBoost)*divBoost));}
 
     if (document.getElementById("tesseract-count") != null) {document.getElementById("tesseract-count").textContent = tesseracts;}
-    if (document.getElementById("tesseract-production") != null) {document.getElementById("tesseract-production").textContent = format(Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("tesseract-production") != null) {document.getElementById("tesseract-production").textContent = format(Math.floor(tesseractProduction*tesseracts*(1+0.013*resBoost)*divBoost));}
 
     if (document.getElementById("galaxy-count") != null) {document.getElementById("galaxy-count").textContent = galaxies;}
-    if (document.getElementById("galaxy-production") != null) {document.getElementById("galaxy-production").textContent = format(Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1))));}
+    if (document.getElementById("galaxy-production") != null) {document.getElementById("galaxy-production").textContent = format(Math.floor(galaxyProduction*galaxies*(1+0.011*resBoost)*divBoost));}
+
+    if (document.getElementById("blackhole-count") != null) {document.getElementById("blackhole-count").textContent = blackholes;}
+    if (document.getElementById("blackhole-production") != null) {document.getElementById("blackhole-production").textContent = format(Math.floor(blackholeProduction*blackholes*(1+0.01*resBoost)*divBoost));}
 
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
@@ -241,13 +252,14 @@ function updateBaguetteCounters()
     if (document.getElementById("planet-cost") != null) {document.getElementById("planet-cost").textContent = format(Math.floor(planetCost*Math.pow(planetCM, planets)));}
     if (document.getElementById("tesseract-cost") != null) {document.getElementById("tesseract-cost").textContent = format(Math.floor(tesseractCost*Math.pow(tesseractCM, tesseracts)));}
     if (document.getElementById("galaxy-cost") != null) {document.getElementById("galaxy-cost").textContent = format(Math.floor(galaxyCost*Math.pow(galaxyCM, galaxies)));}
+    if (document.getElementById("blackhole-cost") != null) {document.getElementById("blackhole-cost").textContent = format(Math.floor(blackholeCost*Math.pow(blackholeCM, blackholes)));}
 
     if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
-    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*researchbaguettes))*Math.floor(1+divinebaguettes/10));}
+    if (document.getElementById("furnace-count") != null) {document.getElementById("furnace-count").textContent = format(Math.floor(clickAmount*(1+.15*resBoost))*Math.floor(1+divinebaguettes/10));}
 
     //Update Research Information
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
@@ -258,7 +270,15 @@ function updateBaguetteCounters()
     if (document.getElementById("altar-cost") != null) {document.getElementById("altar-cost").textContent = format(Math.floor(altarCost()));}
 
     //Update Prestige Information
-    if (document.getElementById("db-count") != null) {document.getElementById("db-count").textContent = format(divineBaguetteCalculator());}
+    var db = divineBaguetteCalculator();
+    if (db > divinebaguettes)
+    {
+        db -= divinebaguettes;
+    }else {
+        db = 0;
+    }
+    if (document.getElementById("db-count") != null) {document.getElementById("db-count").textContent = format(db);}
+
     if (document.getElementById("db-total") != null) {document.getElementById("db-total").textContent = format(divinebaguettes);}
 }
 
@@ -396,6 +416,11 @@ function updateUnlockedFeatures()
     {
         document.getElementById("db-text").style.visibility = "visible";
     }
+
+    if (prestiges >= 1 && document.getElementById("blackhole-container") != null)
+    {
+        document.getElementById("blackhole-container").style.visibility = "visible";
+    }
 }
 
 function buyBakery() 
@@ -503,6 +528,21 @@ function buyGalaxy()
     }
 }
 
+function buyBlackhole()
+{
+    var cost = Math.floor(blackholeCost*Math.pow(blackholeCM, blackholes));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        blackholes += 1;
+        playAnimation(document.getElementById("buy-blackhole-button"), "marketClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-blackhole-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
     var cost = Math.floor(labCost*Math.pow(labCM, labs));
@@ -558,20 +598,6 @@ function altarSacrifice()
     updateBaguetteCounters();
 
     playAnimation(document.getElementById("altar-button"), "furnaceClick");
-    //Sacrifice half of baguettes
-    /*
-    var bagSac = baguettes/2;
-
-    baguettes -= Math.floor(bagSac);
-
-    var sacResult = Math.floor(Math.floor(Math.log10(bagSac)/3)-1)*.00001;
-
-    epicbaguettes += sacResult;
-    epicbaguettes = Math.round(epicbaguettes*100000)/100000;
-
-    updateBaguetteCounters();
-
-    playAnimation(document.getElementById("altar-button"), "furnaceClick");*/
 }
 
 function altarCost()
@@ -607,7 +633,8 @@ function save()
         divinebaguettes: divinebaguettes,
         baguettesGenerated: baguettesGenerated,
         timePlayed: timePlayed,
-        clicks: clicks
+        clicks: clicks,
+        blackholes: blackholes
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -651,6 +678,7 @@ function load()
     if (typeof savedata.baguettesGenerated !== "undefined") {baguettesGenerated = savedata.baguettesGenerated;}else {baguettesGenerated = 0;}
     if (typeof savedata.timePlayed !== "undefined") {timePlayed = savedata.timePlayed;}else {timePlayed = 0;}
     if (typeof savedata.clicks !== "undefined") {clicks = savedata.clicks;}else {clicks = 0;}
+    if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
 }
 
 function reset()
@@ -673,6 +701,7 @@ function reset()
     altarUnlocked = false;
     galaxies = 0;
     baguettesGenerated = 0;
+    blackholes = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
@@ -688,6 +717,7 @@ function calculateBPS()
     sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
     sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1)));
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1)));
+    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*Math.pow(researchbaguettes, epicbaguettes+1)));
 
     //Divine Baguette Boost
     sum *= 1+.01*divinebaguettes; //Each gives +1% boost to BPS
@@ -704,6 +734,7 @@ function calculateBPSVariable(research, epic, divine)
     sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(research, epic+1)));
     sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(research, epic+1)));
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(research, epic+1)));
+    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*Math.pow(research, epic+1)));
 
     //Divine Baguette Boost
     sum *= 1+.01*divine; //Each gives +1% boost to BPS
