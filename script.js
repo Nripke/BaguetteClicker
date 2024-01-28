@@ -77,6 +77,9 @@ var clickerCM = 1.2;
 var researchPercent = 1; //Any number less than this will earn a research baguette from ranNum from 1-100
 var researchCM = 100;
 
+var researchClickUpgrade = 1; //Divine upgrade, lasts through prestiges
+var researchClickCM = 5;
+
 //Interesting stat variables:
 var timePlayed = 0; //In seconds
 var clicks = 0;
@@ -90,6 +93,8 @@ Factory
 Alchemy
 Planet
 Tesseract
+Galaxy
+Black Hole
 
 */
 
@@ -104,7 +109,7 @@ function loadGame()
 function format(num) 
 {
     if (num < 1000) {return num;}
-    const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion"];
+    const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion"];
 
     const suffixIndex = Math.floor(Math.log10(Math.abs(num)) / 3);
     const scaledNum = num / Math.pow(10, suffixIndex * 3);
@@ -200,6 +205,21 @@ function buyResearchUpgrade()
     }
 }
 
+function buyResearchClickUpgrade()
+{
+    var cost = Math.floor(2*Math.pow(researchClickCM, researchClickUpgrade)); //Cost in divine baguettes
+    if (divinebaguettes >= cost)
+    {
+        divinebaguettes -= cost;
+        researchClickUpgrade += 1;
+        playAnimation(document.getElementById("buy-researchclick-button"), "furnaceUpgradeClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-researchclick-title"), "cantPurchase");
+    }
+}
+
 function updateBaguetteCounters()
 {
     var resBoost = Math.pow(researchbaguettes, epicbaguettes+1);
@@ -265,6 +285,8 @@ function updateBaguetteCounters()
     if (document.getElementById("research-upgrade-cost") != null) {document.getElementById("research-upgrade-cost").textContent = format(Math.floor(100*Math.pow(researchCM, researchPercent)));}
     if (document.getElementById("research-cost") != null) {document.getElementById("research-cost").textContent = format(Math.floor(Math.pow(10, researchPercent)));}
     if (document.getElementById("research-percent") != null) {document.getElementById("research-percent").textContent = researchPercent + "%";}
+    if (document.getElementById("research-count") != null) {document.getElementById("research-count").textContent = researchClickUpgrade;}
+    if (document.getElementById("researchclick-upgrade-cost") != null) {document.getElementById("researchclick-upgrade-cost").textContent = format(Math.floor(2*Math.pow(researchClickCM, researchClickUpgrade)));}
 
     //Update Altar Information
     if (document.getElementById("altar-cost") != null) {document.getElementById("altar-cost").textContent = format(Math.floor(altarCost()));}
@@ -378,7 +400,7 @@ function researchClick()
     baguettes -= Math.floor(Math.pow(10, researchPercent));
     if (randomNumber <= researchPercent) //Roll success
     {
-        researchbaguettes += 1;
+        researchbaguettes += researchClickUpgrade;
         playAnimation(document.getElementById("research-button"), "furnaceClick");
     }
     updateBaguetteCounters();
@@ -420,6 +442,11 @@ function updateUnlockedFeatures()
     if (prestiges >= 1 && document.getElementById("blackhole-container") != null)
     {
         document.getElementById("blackhole-container").style.visibility = "visible";
+    }
+
+    if (prestiges >= 1 && document.getElementById("buy-researchclick-container") != null)
+    {
+        document.getElementById("buy-researchclick-container").style.visibility = "visible";
     }
 }
 
@@ -634,7 +661,8 @@ function save()
         baguettesGenerated: baguettesGenerated,
         timePlayed: timePlayed,
         clicks: clicks,
-        blackholes: blackholes
+        blackholes: blackholes,
+        researchClickUpgrade: researchClickUpgrade
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -679,6 +707,7 @@ function load()
     if (typeof savedata.timePlayed !== "undefined") {timePlayed = savedata.timePlayed;}else {timePlayed = 0;}
     if (typeof savedata.clicks !== "undefined") {clicks = savedata.clicks;}else {clicks = 0;}
     if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
+    if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 0;}
 }
 
 function reset()

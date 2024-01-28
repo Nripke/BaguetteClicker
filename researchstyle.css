@@ -283,6 +283,32 @@ body, h1, p {
   padding-left: 20px;
 }
 
+.buy-researchclick-container {
+  position: absolute; /* Fixed positioning */
+  top: 70%; /* Center vertically */
+  left: 80%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  cursor: pointer; /* Change cursor to indicate it's clickable */
+  visibility: hidden;
+}
+
+#buy-researchclick-button {
+  width: 100px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+#buy-researchclick-title {
+  position: absolute;
+  padding-left: 20px;
+  color: rgb(255, 215, 0);
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 20px;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
 @keyframes furnaceUpgradeClick {
   0% {
     width: 100px;
@@ -320,4 +346,17 @@ body, h1, p {
   font-size: 24px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   visibility: hidden;
+}
+
+.research-count-title {
+  position: absolute;
+  bottom: 110%; /* Center vertically */
+  right: -20px;
+  color: rgb(56, 186, 238);/* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  text-align: center;
+  width: 250px;
 }
