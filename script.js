@@ -707,7 +707,7 @@ function load()
     if (typeof savedata.timePlayed !== "undefined") {timePlayed = savedata.timePlayed;}else {timePlayed = 0;}
     if (typeof savedata.clicks !== "undefined") {clicks = savedata.clicks;}else {clicks = 0;}
     if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
-    if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 0;}
+    if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 1;}
 }
 
 function reset()
