@@ -20,6 +20,7 @@ var prestiges = 0;
 var bakeryUnlocked = false;
 var researchUnlocked = false;
 var altarUnlocked = false;
+var canTravel = false; //Variable used to make sure people save their progress before loading an unloaded game (Courtesy of all the people who complained about losing their progress ._.)
 
 var bakeries = 0;
 var bakeryCM = 1.1;
@@ -306,13 +307,14 @@ function updateBaguetteCounters()
 
 function goFurnace()
 {
+    if (!canTravel) {return;}
     save();
     window.location.href = 'index.html';
 }
 
 function goBakery()
 {
-    if (bakeryUnlocked)
+    if (bakeryUnlocked && canTravel)
     {
         save();
         window.location.href = 'bakeries.html';
@@ -337,7 +339,7 @@ function goBakery()
 
 function goResearch()
 {
-    if (researchUnlocked)
+    if (researchUnlocked && canTravel)
     {
         save();
         window.location.href = 'research.html';
@@ -362,7 +364,7 @@ function goResearch()
 
 function goAltar()
 {
-    if (altarUnlocked)
+    if (altarUnlocked && canTravel)
     {
         save();
         window.location.href = 'altar.html';
@@ -387,6 +389,8 @@ function goAltar()
 
 function goPrestige()
 {
+    if (!canTravel) {return;}
+
     save();
     window.location.href = 'prestige.html';
     return;
@@ -668,6 +672,8 @@ function save()
     localStorage.setItem("save", JSON.stringify(save));
     console.log("Game Saved!");
 
+    
+
     clearInterval(researchInterval);
 
     researchInterval = setInterval(function generateResearch() {
@@ -709,6 +715,8 @@ function load()
     if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
     if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 1;}
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
+
+    canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
 }
 
 function reset()
