@@ -62,6 +62,11 @@ var blackholeCM = 1.36;
 var blackholeCost = 1000000000000;
 var blackholeProduction = 3500000;
 
+var frances = 0;
+var franceCM = 1.42;
+var franceCost = 50000000000000;
+var franceProduction = 25000000;
+
 var labs = 0;
 var labCM = 1.5;
 var labCost = 10;
@@ -261,6 +266,9 @@ function updateBaguetteCounters()
     if (document.getElementById("blackhole-count") != null) {document.getElementById("blackhole-count").textContent = blackholes;}
     if (document.getElementById("blackhole-production") != null) {document.getElementById("blackhole-production").textContent = format(Math.floor(blackholeProduction*blackholes*(1+0.01*resBoost)*divBoost));}
 
+    if (document.getElementById("france-count") != null) {document.getElementById("france-count").textContent = frances;}
+    if (document.getElementById("france-production") != null) {document.getElementById("france-production").textContent = format(Math.floor(franceProduction*frances*(1+0.009*resBoost)*divBoost));}
+
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
@@ -274,6 +282,7 @@ function updateBaguetteCounters()
     if (document.getElementById("tesseract-cost") != null) {document.getElementById("tesseract-cost").textContent = format(Math.floor(tesseractCost*Math.pow(tesseractCM, tesseracts)));}
     if (document.getElementById("galaxy-cost") != null) {document.getElementById("galaxy-cost").textContent = format(Math.floor(galaxyCost*Math.pow(galaxyCM, galaxies)));}
     if (document.getElementById("blackhole-cost") != null) {document.getElementById("blackhole-cost").textContent = format(Math.floor(blackholeCost*Math.pow(blackholeCM, blackholes)));}
+    if (document.getElementById("france-cost") != null) {document.getElementById("france-cost").textContent = format(Math.floor(franceCost*Math.pow(franceCM, frances)));}
 
     if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
@@ -448,6 +457,11 @@ function updateUnlockedFeatures()
         document.getElementById("blackhole-container").style.visibility = "visible";
     }
 
+    if (prestiges >= 2 && document.getElementById("france-container") != null)
+    {
+        document.getElementById("france-container").style.visibility = "visible";
+    }
+
     if (prestiges >= 1 && document.getElementById("buy-researchclick-container") != null)
     {
         document.getElementById("buy-researchclick-container").style.visibility = "visible";
@@ -574,6 +588,21 @@ function buyBlackhole()
     }
 }
 
+function buyFrance()
+{
+    var cost = Math.floor(franceCost*Math.pow(franceCM, frances));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        frances += 1;
+        playAnimation(document.getElementById("buy-france-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("bufrance-title"), "cantPurchase");
+    }
+}
+
 function buyLab()
 {
     var cost = Math.floor(labCost*Math.pow(labCM, labs));
@@ -666,7 +695,8 @@ function save()
         timePlayed: timePlayed,
         clicks: clicks,
         blackholes: blackholes,
-        researchClickUpgrade: researchClickUpgrade
+        researchClickUpgrade: researchClickUpgrade,
+        frances: frances
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -714,6 +744,7 @@ function load()
     if (typeof savedata.clicks !== "undefined") {clicks = savedata.clicks;}else {clicks = 0;}
     if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
     if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 1;}
+    if (typeof savedata.frances !== "undefined") {frances = savedata.frances;}else {frances = 0;}
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
@@ -740,6 +771,7 @@ function reset()
     galaxies = 0;
     baguettesGenerated = 0;
     blackholes = 0;
+    frances = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
@@ -748,14 +780,17 @@ function reset()
 function calculateBPS()
 {
     var sum = 0;
-    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(marketProduction*markets*(1+0.05*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(researchbaguettes, epicbaguettes+1)));
-    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*Math.pow(researchbaguettes, epicbaguettes+1)));
+    var researchBoost = Math.pow(researchbaguettes, epicbaguettes+1);
+
+    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*researchBoost));
+    sum += Math.floor(marketProduction*markets*(1+0.05*researchBoost));
+    sum += Math.floor(factoryProduction*factories*(1+0.03*researchBoost));
+    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*researchBoost));
+    sum += Math.floor(planetProduction*planets*(1+0.015*researchBoost));
+    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*researchBoost));
+    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*researchBoost));
+    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*researchBoost));
+    sum += Math.floor(franceProduction*frances*(1+0.009*researchBoost));
 
     //Divine Baguette Boost
     sum *= 1+.01*divinebaguettes; //Each gives +1% boost to BPS
@@ -765,14 +800,17 @@ function calculateBPS()
 function calculateBPSVariable(research, epic, divine)
 {
     var sum = 0;
-    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*Math.pow(research, epic+1)));
-    sum += Math.floor(marketProduction*markets*(1+0.05*Math.pow(research, epic+1)));
-    sum += Math.floor(factoryProduction*factories*(1+0.03*Math.pow(research, epic+1)));
-    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*Math.pow(research, epic+1)));
-    sum += Math.floor(planetProduction*planets*(1+0.015*Math.pow(research, epic+1)));
-    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*Math.pow(research, epic+1)));
-    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*Math.pow(research, epic+1)));
-    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*Math.pow(research, epic+1)));
+    var researchBoost = Math.pow(research, epic+1);
+
+    sum += Math.floor(bakeryProduction*bakeries*(1+0.1*researchBoost));
+    sum += Math.floor(marketProduction*markets*(1+0.05*researchBoost));
+    sum += Math.floor(factoryProduction*factories*(1+0.03*researchBoost));
+    sum += Math.floor(alchemyProduction*alchemyLabs*(1+0.02*researchBoost));
+    sum += Math.floor(planetProduction*planets*(1+0.015*researchBoost));
+    sum += Math.floor(tesseractProduction*tesseracts*(1+0.013*researchBoost));
+    sum += Math.floor(galaxyProduction*galaxies*(1+0.011*researchBoost));
+    sum += Math.floor(blackholeProduction*blackholes*(1+0.01*researchBoost));
+    sum += Math.floor(franceProduction*frances*(1+0.009*researchBoost));
 
     //Divine Baguette Boost
     sum *= 1+.01*divine; //Each gives +1% boost to BPS

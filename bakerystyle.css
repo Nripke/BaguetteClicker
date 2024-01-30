@@ -299,6 +299,23 @@ body, h1, p {
     transform: translate(13%, 13%);
   }
 
+  .france-container {
+    position: absolute;
+    top: 150px;
+    left: 4800px;
+    width: 400px;
+    visibility: hidden;
+  }
+
+  #buy-france-button {
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+  }
+
+
   @keyframes furnaceClick {
     0% {
         width: 200px;
