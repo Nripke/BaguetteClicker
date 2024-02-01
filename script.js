@@ -67,6 +67,11 @@ var franceCM = 1.42;
 var franceCost = 50000000000000;
 var franceProduction = 25000000;
 
+var dimensions = 0;
+var dimensionCM = 1.48;
+var dimensionCost = 5000000000000000;
+var dimensionProduction = 150000000;
+
 var labs = 0;
 var labCM = 1.5;
 var labCost = 10;
@@ -269,6 +274,9 @@ function updateBaguetteCounters()
     if (document.getElementById("france-count") != null) {document.getElementById("france-count").textContent = frances;}
     if (document.getElementById("france-production") != null) {document.getElementById("france-production").textContent = format(Math.floor(franceProduction*frances*(1+0.009*resBoost)*divBoost));}
 
+    if (document.getElementById("dimension-count") != null) {document.getElementById("dimension-count").textContent = dimensions;}
+    if (document.getElementById("dimension-production") != null) {document.getElementById("dimension-production").textContent = format(Math.floor(dimensionProduction*dimensions*(1+0.007*resBoost)*divBoost));}
+
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
@@ -283,6 +291,7 @@ function updateBaguetteCounters()
     if (document.getElementById("galaxy-cost") != null) {document.getElementById("galaxy-cost").textContent = format(Math.floor(galaxyCost*Math.pow(galaxyCM, galaxies)));}
     if (document.getElementById("blackhole-cost") != null) {document.getElementById("blackhole-cost").textContent = format(Math.floor(blackholeCost*Math.pow(blackholeCM, blackholes)));}
     if (document.getElementById("france-cost") != null) {document.getElementById("france-cost").textContent = format(Math.floor(franceCost*Math.pow(franceCM, frances)));}
+    if (document.getElementById("dimension-cost") != null) {document.getElementById("dimension-cost").textContent = format(Math.floor(dimensionCost*Math.pow(dimensionCM, dimensions)));}
 
     if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
@@ -462,6 +471,11 @@ function updateUnlockedFeatures()
         document.getElementById("france-container").style.visibility = "visible";
     }
 
+    if (prestiges >= 3 && document.getElementById("dimension-container") != null)
+    {
+        document.getElementById("dimension-container").style.visibility = "visible";
+    }
+
     if (prestiges >= 1 && document.getElementById("buy-researchclick-container") != null)
     {
         document.getElementById("buy-researchclick-container").style.visibility = "visible";
@@ -599,7 +613,22 @@ function buyFrance()
         updateBaguetteCounters();
     } else {
         //Play 'cannot afford' animation
-        playAnimation(document.getElementById("bufrance-title"), "cantPurchase");
+        playAnimation(document.getElementById("buy-france-title"), "cantPurchase");
+    }
+}
+
+function buyDimension()
+{
+    var cost = Math.floor(dimensionCost*Math.pow(dimensionCM, dimensions));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        dimensions += 1;
+        playAnimation(document.getElementById("buy-dimension-button"), "dimensionClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-dimension-title"), "cantPurchase");
     }
 }
 
@@ -696,7 +725,8 @@ function save()
         clicks: clicks,
         blackholes: blackholes,
         researchClickUpgrade: researchClickUpgrade,
-        frances: frances
+        frances: frances,
+        dimensions: dimensions
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -745,6 +775,7 @@ function load()
     if (typeof savedata.blackholes !== "undefined") {blackholes = savedata.blackholes;}else {blackholes = 0;}
     if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 1;}
     if (typeof savedata.frances !== "undefined") {frances = savedata.frances;}else {frances = 0;}
+    if (typeof savedata.dimensions !== "undefined") {dimensions = savedata.dimensions;}else {dimensions = 0;}
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
@@ -772,6 +803,7 @@ function reset()
     baguettesGenerated = 0;
     blackholes = 0;
     frances = 0;
+    dimensions = 0;
 
     updateBaguetteCounters();
     updateUnlockedFeatures();
@@ -791,6 +823,7 @@ function calculateBPS()
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*researchBoost));
     sum += Math.floor(blackholeProduction*blackholes*(1+0.01*researchBoost));
     sum += Math.floor(franceProduction*frances*(1+0.009*researchBoost));
+    sum += Math.floor(dimensionProduction*dimensions*(1+0.007*researchBoost));
 
     //Divine Baguette Boost
     sum *= 1+.01*divinebaguettes; //Each gives +1% boost to BPS
@@ -811,6 +844,7 @@ function calculateBPSVariable(research, epic, divine)
     sum += Math.floor(galaxyProduction*galaxies*(1+0.011*researchBoost));
     sum += Math.floor(blackholeProduction*blackholes*(1+0.01*researchBoost));
     sum += Math.floor(franceProduction*frances*(1+0.009*researchBoost));
+    sum += Math.floor(dimensionProduction*dimensions*(1+0.007*researchBoost));
 
     //Divine Baguette Boost
     sum *= 1+.01*divine; //Each gives +1% boost to BPS
