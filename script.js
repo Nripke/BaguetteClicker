@@ -73,7 +73,7 @@ var dimensionCost = 5000000000000000;
 var dimensionProduction = 150000000;
 
 var labs = 0;
-var labCM = 1.5;
+var labCM = 0.5; //In actuality, its 1.5
 var labCost = 10;
 
 var labSpeedCost = 100000;
@@ -85,7 +85,7 @@ var labSpeedMultiplier = 0.9875;
 var labCostUpgrades = 0;
 var labCUCost = 5;
 var labCUCM = 2;
-var labCUMultiplier = 0.9875;
+var labCUMultiplier = 0.95;
 
 var clickAmount = 1;
 var clickerCM = 1.2;
@@ -125,7 +125,7 @@ function loadGame()
 function format(num) 
 {
     if (num < 1000) {return num;}
-    const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion"];
+    const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
 
     const suffixIndex = Math.floor(Math.log10(Math.abs(num)) / 3);
     const scaledNum = num / Math.pow(10, suffixIndex * 3);
@@ -299,7 +299,7 @@ function updateBaguetteCounters()
     if (document.getElementById("france-cost") != null) {document.getElementById("france-cost").textContent = format(Math.floor(franceCost*Math.pow(franceCM, frances)));}
     if (document.getElementById("dimension-cost") != null) {document.getElementById("dimension-cost").textContent = format(Math.floor(dimensionCost*Math.pow(dimensionCM, dimensions)));}
 
-    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs)));}
+    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(1+labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
     if (document.getElementById("labCost-cost") != null) {document.getElementById("labCost-cost").textContent = format(Math.floor(labCUCost*Math.pow(labCUCM, labCostUpgrades)));}
 
@@ -646,7 +646,7 @@ function buyDimension()
 
 function buyLab()
 {
-    var cost = Math.floor(labCost*Math.pow(labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs));
+    var cost = Math.floor(labCost*Math.pow(1+labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs));
     if (researchbaguettes >= cost)
     {
         researchbaguettes -= cost;
