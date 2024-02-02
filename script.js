@@ -82,6 +82,11 @@ var labSpeedUpgrades = 0;
 var labSpeedCM = 1.35;
 var labSpeedMultiplier = 0.9875;
 
+var labCostUpgrades = 0;
+var labCUCost = 5;
+var labCUCM = 2;
+var labCUMultiplier = 0.9875;
+
 var clickAmount = 1;
 var clickerCM = 1.2;
 
@@ -280,6 +285,7 @@ function updateBaguetteCounters()
 
     if (document.getElementById("lab-count") != null) {document.getElementById("lab-count").textContent = labs;}
     if (document.getElementById("labSpeed-count") != null) {document.getElementById("labSpeed-count").textContent = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
+    if (document.getElementById("labCost-count") != null) {document.getElementById("labCost-count").textContent = labCostUpgrades;}
 
     //Update Automated Costs
     if (document.getElementById("bakery-cost") != null) {document.getElementById("bakery-cost").textContent = format(Math.floor(bakeryCost*Math.pow(bakeryCM, bakeries)));}
@@ -293,8 +299,9 @@ function updateBaguetteCounters()
     if (document.getElementById("france-cost") != null) {document.getElementById("france-cost").textContent = format(Math.floor(franceCost*Math.pow(franceCM, frances)));}
     if (document.getElementById("dimension-cost") != null) {document.getElementById("dimension-cost").textContent = format(Math.floor(dimensionCost*Math.pow(dimensionCM, dimensions)));}
 
-    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM, labs)));}
+    if (document.getElementById("lab-cost") != null) {document.getElementById("lab-cost").textContent = format(Math.floor(labCost*Math.pow(labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs)));}
     if (document.getElementById("labSpeed-cost") != null) {document.getElementById("labSpeed-cost").textContent = format(Math.floor(labSpeedCost*Math.pow(labSpeedCM, labSpeedUpgrades)));}
+    if (document.getElementById("labCost-cost") != null) {document.getElementById("labCost-cost").textContent = format(Math.floor(labCUCost*Math.pow(labCUCM, labCostUpgrades)));}
 
     //Update Furnace Information
     if (document.getElementById("furnace-cost") != null) {document.getElementById("furnace-cost").textContent = format(Math.floor(25*Math.pow(clickerCM, clickAmount)));}
@@ -480,6 +487,11 @@ function updateUnlockedFeatures()
     {
         document.getElementById("buy-researchclick-container").style.visibility = "visible";
     }
+
+    if (prestiges >= 1 && document.getElementById("lab-cost-container") != null)
+    {
+        document.getElementById("lab-cost-container").style.visibility = "visible";
+    }
 }
 
 function buyBakery() 
@@ -634,7 +646,7 @@ function buyDimension()
 
 function buyLab()
 {
-    var cost = Math.floor(labCost*Math.pow(labCM, labs));
+    var cost = Math.floor(labCost*Math.pow(labCM*Math.pow(labCUMultiplier, labCostUpgrades), labs));
     if (researchbaguettes >= cost)
     {
         researchbaguettes -= cost;
@@ -659,6 +671,21 @@ function buyLabSpeedUpgrade()
     } else {
         //Play 'cannot afford' animation
         playAnimation(document.getElementById("buy-labSpeed-title"), "cantPurchase");
+    }
+}
+
+function buyLabCostUpgrade()
+{
+    var cost = Math.floor(labCUCost*Math.pow(labCUCM, labCostUpgrades));
+    if (divinebaguettes >= cost)
+    {
+        divinebaguettes -= cost;
+        labCostUpgrades += 1;
+        playAnimation(document.getElementById("buy-labCost-button"), "labClick");
+        updateBaguetteCounters();
+    } else {
+        //Play 'cannot afford' animation
+        playAnimation(document.getElementById("buy-labCost-title"), "cantPurchase");
     }
 }
 
@@ -726,7 +753,8 @@ function save()
         blackholes: blackholes,
         researchClickUpgrade: researchClickUpgrade,
         frances: frances,
-        dimensions: dimensions
+        dimensions: dimensions,
+        labCostUpgrades: labCostUpgrades
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -776,6 +804,7 @@ function load()
     if (typeof savedata.researchClickUpgrade !== "undefined") {researchClickUpgrade = savedata.researchClickUpgrade;}else {researchClickUpgrade = 1;}
     if (typeof savedata.frances !== "undefined") {frances = savedata.frances;}else {frances = 0;}
     if (typeof savedata.dimensions !== "undefined") {dimensions = savedata.dimensions;}else {dimensions = 0;}
+    if (typeof savedata.labCostUpgrades !== "undefined") {labCostUpgrades = savedata.labCostUpgrades;}else {labCostUpgrades = 0;}
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded

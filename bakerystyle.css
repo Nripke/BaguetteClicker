@@ -210,7 +210,7 @@ body, h1, p {
     position: absolute;
     top: 600px;
     left: 600px;
-    width: 400px;
+    width: 450px;
   }
 
   #buy-labSpeed-button {
@@ -219,6 +219,30 @@ body, h1, p {
     width: 250px;
     height: auto;
     cursor: pointer;
+  }
+
+  .lab-cost-container {
+    position: absolute;
+    top: 600px;
+    left: 1200px;
+    width: 450px;
+    visibility: hidden;
+  }
+
+  #buy-labCost-button {
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+  }
+
+  #buy-labCost-title {
+    color: rgb(255, 215, 0);
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 20px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
 
   .alchemy-container {
