@@ -21,6 +21,7 @@ var bakeryUnlocked = false;
 var researchUnlocked = false;
 var altarUnlocked = false;
 var canTravel = false; //Variable used to make sure people save their progress before loading an unloaded game (Courtesy of all the people who complained about losing their progress ._.)
+var legendaryUnlocked = false; 
 
 var bakeries = 0;
 var bakeryCM = 1.1;
@@ -111,6 +112,7 @@ Planet
 Tesseract
 Galaxy
 Black Hole
+Dimension 
 
 */
 
@@ -412,6 +414,15 @@ function goAltar()
     }
 }
 
+function goRiddle()
+{
+    if (!canTravel) {return;}
+
+    save();
+    window.location.href = 'riddle.html';
+    return;
+}
+
 function goPrestige()
 {
     if (!canTravel) {return;}
@@ -463,6 +474,18 @@ function updateUnlockedFeatures()
         document.getElementById("altar-locked-text").style.color = "#00ff00";
     }
 
+    if (legendaryUnlocked && document.getElementById("legendary-arrow") != null)
+    {
+        document.getElementById("legendary-text-container").style.visibility = "visible";
+        document.getElementById("legendary-container").style.visibility = "visible";
+    }
+
+    if (prestiges >= 3 && document.getElementById("riddle-text-container") != null)
+    {
+        document.getElementById("riddle-text-container").style.visibility = "visible";
+        document.getElementById("riddle-container").style.visibility = "visible";
+    }
+
     if (prestiges >= 1 && document.getElementById("db-text") != null)
     {
         document.getElementById("db-text").style.visibility = "visible";
@@ -492,6 +515,8 @@ function updateUnlockedFeatures()
     {
         document.getElementById("lab-cost-container").style.visibility = "visible";
     }
+
+    
 }
 
 function buyBakery() 
@@ -754,7 +779,8 @@ function save()
         researchClickUpgrade: researchClickUpgrade,
         frances: frances,
         dimensions: dimensions,
-        labCostUpgrades: labCostUpgrades
+        labCostUpgrades: labCostUpgrades,
+        legendaryUnlocked: legendaryUnlocked
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -805,6 +831,8 @@ function load()
     if (typeof savedata.frances !== "undefined") {frances = savedata.frances;}else {frances = 0;}
     if (typeof savedata.dimensions !== "undefined") {dimensions = savedata.dimensions;}else {dimensions = 0;}
     if (typeof savedata.labCostUpgrades !== "undefined") {labCostUpgrades = savedata.labCostUpgrades;}else {labCostUpgrades = 0;}
+    if (typeof savedata.legendaryUnlocked !== "undefined") {legendaryUnlocked = savedata.legendaryUnlocked}else {legendaryUnlocked = false;}
+
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
@@ -888,6 +916,23 @@ function calculateResearchBoost()
 
     return ratio;
 }
+
+function tryRiddle()
+{
+    var response = prompt("Enter your guess here: ");
+
+    if (response.toLowerCase() == "legendary")
+    {
+        //Correct Answer
+        legendaryUnlocked = true;
+        updateUnlockedFeatures();
+        alert("Correct! For your efforts, I let you into my Legendary Factory.");
+    }else {
+        alert("Incorrect!");
+    }
+}
+
+
 
 
 //Auto Generation

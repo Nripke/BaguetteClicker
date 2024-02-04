@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baguette Clicker</title>
+    <link rel="stylesheet" href="./riddlestyle.css">
+    <script src="./script.js"></script>
+</head>
+
+
+<body onload="loadGame()">
+
+  <div class="baguette-text"><span id="baguette-count">0</span></div>
+  <div class="baguette-img"><img id="baguette-img" src="./baguette.png" alt="Baguette"></img></div>
+  
+  <div class="epicbaguette-text"><span id="epicbaguette-count">0</span></div>
+  <div class="epicbaguette-img"><img id="epicbaguette-img" src="./epicbaguette.png" alt="EpicBaguette"></img></div>
+  
+  <div class="researchbaguette-text"><span id="researchbaguette-count">0</span></div>
+  <div class="researchbaguette-img"><img id="researchbaguette-img" src="./researchbaguette.png" alt="ResearchBaguette"></img></div>
+  
+<div class="BPS-text">BPS: <span id="BPS-count">0</span></div>
+<div class="RBoost-text">RB Boost: <span id="RBoost-count">0</span>x</div>
+<div class="db-text" id="db-text">Divine Baguettes: <span id="db-total">0</span></div>
+
+<div class="info-container">
+  <span class="info-text-1">Hello Player, it seems you have gotten quite far in this game. So far that I, the Baguette ruler of this land, have come to respect the work you have done. So I give to you a test to prove you are worthy of my <span id="highlight">legendary</span> power. If you pass, you may proceed.</span>
+</div>
+
+<div class="info-container-2">
+  <span class="info-text-1">Answer this riddle:<span id="highlight2" onclick="tryRiddle()"> Yd jqbui Y'c ifkd, yd usxeui bedw sqhhyut. Q cojxys meht, vehuluh fqhhyut.</span> Clue: I take 16 steps from A to keep Caesar at bay.</span>
+</div>
+
+<div class="legendary-text-container" id="legendary-text-container">
+  <span> Go to Legendary Factory</span>
+</div>
+
+<div class="legendary-container" id="legendary-container">
+  <img src="./arrowDown.png" alt="Arrow Button" id="legendary-arrow" onclick="goLegendary()">
+</div>
+
+<div class="furnace-text-container">
+  <span> Go to the Furnace</span>
+</div>
+
+<div class="furnace-container">
+  <img src="./arrowDown.png" alt="Arrow Button" id="furnace-arrow" onclick="goFurnace()">
+</div>
+
+
+</body>
+</html>

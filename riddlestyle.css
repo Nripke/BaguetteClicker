@@ -60,7 +60,7 @@ body, h1, p {
 
   .researchbaguette-img {
     position: absolute;
-    top: 100px;
+    top: 10px;
     left: 10px;
     width: 35px;
     height: auto;
@@ -69,7 +69,7 @@ body, h1, p {
 
   #researchbaguette-img {
     position: absolute;
-    top: 10px;
+    top: 100px;
     width: 40px;
     height: auto;
     color: white; /* Or any color you prefer */
@@ -97,19 +97,6 @@ body, h1, p {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
 
-  .db-text {
-    position: absolute;
-    top: 90px;
-    right: 10px;
-    color: rgb(255, 215, 0); /* Or any color you prefer */
-    z-index: 2; /* Ensures it appears above other elements */
-    font-family: 'Silkscreen', sans-serif;
-    font-size: 24px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-    visibility: hidden;
-  }
-
-
   .epicbaguette-text {
     position: absolute;
     top: 55px;
@@ -132,44 +119,6 @@ body, h1, p {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
   }
   
-  /* Style for Furnace Image/Button */
-  .furnace-container {
-    position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the container */
-  }
-  
-  #furnace-button {
-    width: 200px; /* Adjust dimensions as needed */
-    height: auto;
-    cursor: pointer; /* Change cursor to indicate it's clickable */
-  }
-
-  .furnace-count-title {
-    position: absolute;
-    bottom: 110%; /* Center vertically */
-    right: -20px;
-    color: white;/* Or any color you prefer */
-    z-index: 2; /* Ensures it appears above other elements */
-    font-family: 'Silkscreen', sans-serif;
-    font-size: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-    text-align: center;
-    width: 250px;
-  }
-
-
-  .time-text {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    color: white; /* Or any color you prefer */
-    z-index: 2; /* Ensures it appears above other elements */
-    font-family: 'Silkscreen', sans-serif;
-    font-size: 18px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  }
 
   @keyframes furnaceClick {
     0% {
@@ -233,7 +182,7 @@ body, h1, p {
 }
 
 .tile-title {
-  color: #00ff00;
+  color: #ffffff;
   font-family: 'Silkscreen', sans-serif;
   font-size: 15px;
   z-index: 2;
@@ -275,21 +224,135 @@ body, h1, p {
   animation: furnaceUpgradeClick 0.3s;
 }
 
-.research-container {
+.legendary-container {
+  position: fixed; /* Fixed positioning */
+  bottom: 5px; /* 10px from the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+  visibility: hidden;
+}
+
+#legendary-arrow {
+  rotate: 0deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.legendary-text-container {
+  position: fixed; /* Fixed positioning */
+  color: #00ff00;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  bottom: 60px; /* 10px from the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+  z-index: 2;
+  visibility: hidden;
+}
+
+.altar-info-container {
+  position: absolute; /* Fixed positioning */
+  bottom: 50px; /* Center horizontally */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the container */
+  width: 400px;
+  height: 120px;
+  background-color: rgb(119, 125, 131);
+  border: rgb(65, 58, 54) solid 5px;
+}
+
+.info-container {
+    position: absolute; /* Fixed positioning */
+    top: 400px; /* Center horizontally */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 1000px;
+    height: auto;
+    background-color: rgb(119, 125, 131);
+    border: rgb(65, 58, 54) solid 5px;
+}
+
+.info-container-2 {
+    position: absolute; /* Fixed positioning */
+    top: 650px; /* Center horizontally */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 1000px;
+    height: auto;
+    background-color: rgb(119, 125, 131);
+    border: rgb(65, 58, 54) solid 5px;
+}
+
+.info-text-1 {
+    color: #ffffff;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  #highlight {
+    color: rgb(196, 199, 5);
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  #highlight2 {
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    cursor: pointer;
+  }
+
+
+.prestige-container {
+  position: absolute; /* Fixed positioning */
+    top: 600px; /* Center horizontally */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the container */
+    width: 800px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#db-count {
+  color: rgb(255, 215, 0);
+}
+
+.db-text {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: rgb(255, 215, 0); /* Or any color you prefer */
+  z-index: 2; /* Ensures it appears above other elements */
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  visibility: hidden;
+}
+
+.furnace-container {
   position: fixed; /* Fixed positioning */
   top: 10px; /* 10px from the bottom */
   left: 50%; /* Center horizontally */
   transform: translateX(-50%); /* Center the container */
 }
 
-#research-arrow {
+#furnace-arrow {
   rotate: 180deg;
   width: 50px; /* Adjust dimensions as needed */
+  z-index: 3;
   height: auto;
   cursor: pointer;
 }
 
-.research-text-container {
+.furnace-text-container {
   position: fixed; /* Fixed positioning */
   color: #00ff00;
   font-size: 15px;
@@ -299,103 +362,4 @@ body, h1, p {
   transform: translateX(-50%);
   top: 50px;
   z-index: 2;
-}
-
-#research-locked-text {
-  color: red;
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
-
-
-
-.altar-container {
-  position: fixed; /* Fixed positioning */
-  top: 50%; /* 10px from the bottom */
-  left: 30px; /* Center horizontally */
-  transform: translateX(-50%); /* Center the container */
-}
-
-#altar-arrow {
-  rotate: 90deg;
-  width: 50px; /* Adjust dimensions as needed */
-  height: auto;
-  cursor: pointer;
-}
-
-.altar-text-container {
-  position: fixed; /* Fixed positioning */
-  color: #00ff00;
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  font-family: 'Silkscreen', sans-serif;
-  top: 50%; /* 10px from the bottom */
-  left: 10px; /* Center horizontally */
-  transform: translateY(-50%); /* Center the container */
-  z-index: 2;
-}
-
-#altar-locked-text {
-  color: red;
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
-
-
-.tooltip {
-  position: absolute;
-  display: inline-block;
-  cursor: pointer;
-}
-
-/* Style for the tooltip text */
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  /*padding: 5px;*/
-  position: absolute;
-  z-index: 1;
-  top: -5px;
-  left: 150%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Show the tooltip text when hovering over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-.riddle-container {
-  position: fixed; /* Fixed positioning */
-  bottom: 10px; /* 10px from the bottom */
-  right: 10px; /* Center horizontally */
-  transform: translateX(-50%); /* Center the container */
-  visibility: hidden;
-}
-
-#riddle-arrow {
-  rotate: 315deg;
-  width: 50px; /* Adjust dimensions as needed */
-  height: auto;
-  cursor: pointer;
-}
-
-.riddle-text-container {
-  position: fixed; /* Fixed positioning */
-  color: rgb(255, 215, 0);
-  font-size: 15px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-  font-family: 'Silkscreen', sans-serif;
-  bottom: 50px; /* 10px from the bottom */
-  right: 50px; /* Center horizontally */
-  transform: translateY(-50%); /* Center the container */
-  z-index: 2;
-  visibility: hidden;
 }
