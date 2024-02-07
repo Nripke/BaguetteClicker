@@ -296,7 +296,7 @@ function buyResearchClickUpgrade()
 function updateBaguetteCounters()
 {
     var resBoost = Math.pow(researchbaguettes, epicbaguettes+1);
-    var divBoost = 1+0.01*divinebaguettes;
+    var divBoost = 1+(0.01*(1+legendarybaguettes))*divinebaguettes;
 
     //Update Baguette Counters
     document.getElementById("baguette-count").textContent = format(baguettes);
