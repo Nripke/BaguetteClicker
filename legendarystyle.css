@@ -1,0 +1,428 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap');
+
+
+body, h1, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set tileable background image */
+  body {
+    background-image: url('grassTile.png');
+    background-repeat: repeat; /* This ensures the background image is tileable */
+  }
+  
+  /* Style for Baguettes Text */
+  .baguette-text {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .baguette-img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #baguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  .epicbaguette-img {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 35px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #epicbaguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  .researchbaguette-img {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    width: 35px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  #researchbaguette-img {
+    position: absolute;
+    top: 10px;
+    width: 40px;
+    height: auto;
+    color: white; /* Or any color you prefer */
+  }
+
+  .BPS-text {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .RBoost-text {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .db-text {
+    position: absolute;
+    top: 90px;
+    right: 10px;
+    color: rgb(255, 215, 0); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    visibility: hidden;
+  }
+
+
+  .epicbaguette-text {
+    position: absolute;
+    top: 55px;
+    left: 60px;
+    color: purple; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .researchbaguette-text {
+    position: absolute;
+    top: 100px;
+    left: 60px;
+    color: rgb(56, 186, 238); /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+  
+
+
+
+  .time-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white; /* Or any color you prefer */
+    z-index: 2; /* Ensures it appears above other elements */
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  @keyframes furnaceClick {
+    0% {
+      width: 200px;
+    }
+    50% {
+      width: 225px;
+    }
+    100% {
+      width: 200px;
+    }
+}
+
+.furnaceClick {
+    animation: furnaceClick 0.3s;
+}
+
+.bakery-container {
+    position: fixed; /* Fixed positioning */
+    bottom: 10px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the container */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+  }
+  
+
+@keyframes cantPurchase {
+    0% {
+        font-size: 100%;
+    }
+    50% {
+        font-size: 120%;
+    }
+    100% {
+        font-size: 100%;
+    }
+}
+
+.cantPurchase {
+    animation: cantPurchase 0.3s;
+}
+
+.tile-title {
+  color: #00ff00;
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 15px;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+}
+
+@keyframes furnaceUpgradeClick {
+  0% {
+    width: 100px;
+  }
+  50% {
+    width: 120px;
+  }
+  100% {
+    width: 100px;
+  }
+}
+
+.furnaceUpgradeClick {
+  animation: furnaceUpgradeClick 0.3s;
+}
+
+.furnace-container {
+  position: fixed; /* Fixed positioning */
+  top: 10px; /* 10px from the bottom */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+}
+
+#furnace-arrow {
+  rotate: 180deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.furnace-text-container {
+  position: fixed; /* Fixed positioning */
+  color: #00ff00;
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 50px;
+  z-index: 2;
+}
+
+.tooltip {
+  position: absolute;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Style for the tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  /*padding: 5px;*/
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 150%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when hovering over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.riddle-container {
+  position: fixed; /* Fixed positioning */
+  bottom: 10px; /* 10px from the bottom */
+  right: 10px; /* Center horizontally */
+  transform: translateX(-50%); /* Center the container */
+  visibility: hidden;
+}
+
+#riddle-arrow {
+  rotate: 315deg;
+  width: 50px; /* Adjust dimensions as needed */
+  height: auto;
+  cursor: pointer;
+}
+
+.riddle-text-container {
+  position: fixed; /* Fixed positioning */
+  color: rgb(255, 215, 0);
+  font-size: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  font-family: 'Silkscreen', sans-serif;
+  bottom: 50px; /* 10px from the bottom */
+  right: 50px; /* Center horizontally */
+  transform: translateY(-50%); /* Center the container */
+  z-index: 2;
+  visibility: hidden;
+}
+
+.tile-title {
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 20px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  .explainer-text1 {
+    position: absolute;
+    top: 250px;
+  }
+
+  .explainer-text2 {
+    color: white;
+    position: absolute;
+    top: 300px;
+    padding-top: 10px;
+  }
+
+  .explainer-text3 {
+    color: white;
+    position: absolute;
+    top: 350px;
+  }
+
+  #buy-divine-worker {
+    color: rgb(255, 215, 0);
+  }
+
+  #buy-research-worker {
+    color: rgb(56, 186, 238);
+  }
+
+  .baguette-workers {
+    position: absolute;
+    left: 50px;
+    top: 500px;
+    width: 450px;
+  }
+
+  .divine-workers {
+    position: absolute;
+    left: 750px;
+    top: 500px;
+    width: 450px;
+  }
+
+  .research-workers {
+    position: absolute;
+    left: 1350px;
+    top: 500px;
+    width: 450px;
+  }
+
+  #baguette-percentage 
+  {
+    position: absolute;
+    color: #00ff00;
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    left: 130px;
+    top: 100px;
+  }
+
+  #divine-percentage 
+  {
+    position: absolute;
+    color: rgb(255, 215, 0);
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    left: 130px;
+    top: 100px;
+  }
+
+  #research-percentage 
+  {
+    position: absolute;
+    color: rgb(56, 186, 238);
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 30px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    left: 130px;
+    top: 100px;
+  }
+
+  #buy-baguette-worker {
+    cursor: pointer;
+  }
+
+  #buy-divine-worker {
+    cursor: pointer;
+  }
+
+  #buy-research-worker {
+    cursor: pointer;
+  }
+
+  .legendary-baguettes {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 600px;
+    height: auto;
+    top: 300px;
+    color: rgb(243, 245, 113);
+    font-family: 'Silkscreen', sans-serif;
+    font-size: 50px;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  }
+
+  #legendary-baguettes-title {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    left: 400px;
+  }
+
+  #leg-bag-img {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 150px;
+    left: 250px;
+    height: auto;
+  }

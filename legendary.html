@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Baguette Clicker</title>
+    <link rel="stylesheet" href="./legendarystyle.css">
+    <script src="./script.js"></script>
+</head>
+
+
+<body onload="loadGame()">
+
+<div class="baguette-text"><span id="baguette-count">0</span></div>
+<div class="baguette-img tooltip"><img id="baguette-img" src="./baguette.png" alt="Baguette"></img><span class="tooltiptext">Baguettes</span></div>
+
+<div class="epicbaguette-text"><span id="epicbaguette-count">0</span></div>
+<div class="epicbaguette-img tooltip"><img id="epicbaguette-img" src="./epicbaguette.png" alt="EpicBaguette"></img><span class="tooltiptext">Epic Baguettes</span></div>
+
+<div class="researchbaguette-text"><span id="researchbaguette-count">0</span></div>
+<div class="researchbaguette-img tooltip"><img id="researchbaguette-img" src="./researchbaguette.png" alt="ResearchBaguette"></img><span class="tooltiptext">Research Baguettes</span></div>
+
+<div class="BPS-text">BPS: <span id="BPS-count">0</span></div>
+<div class="RBoost-text">RB Boost: <span id="RBoost-count">0</span>x</div>
+<div class="db-text" id="db-text">Divine Baguettes: <span id="db-total">0</span></div>
+
+
+
+
+<div class="furnace-text-container">
+    <span> Go to Furnace</span>
+</div>
+
+<div class="furnace-container">
+    <img src="./arrowDown.png" alt="Arrow Button" id="furnace-arrow" onclick="goFurnace()">
+</div>
+
+<div class="legendary-baguettes">
+    <img src="./legendarybaguette.png" alt="Legendary Baguettes" id="leg-bag-img">
+    <span id="legendary-baguettes-title"><span id="legendary-baguette-count">0</span></span>
+</div>
+
+<div class="baguette-workers">
+    <span id="buy-baguette-worker" class="tile-title explainer-text1" onclick="buyBaguetteWorker()">Buy Baguette Worker: <span id="baguette-worker-cost">0</span> Baguettes</span>
+    <span class="tile-title explainer-text2">Current Baguette Workers: <span id="baguette-worker-count">0</span></span>
+    <span id="baguette-percentage">0%</span>
+</div>
+
+<div class="divine-workers">
+    <span id="buy-divine-worker" class="tile-title explainer-text1" onclick="buyDivineWorker()">Buy Divine Worker: <span id="divine-worker-cost">0</span> Baguettes</span>
+    <span class="tile-title explainer-text2">Current Divine Workers: <span id="divine-worker-count">0</span></span>
+    <span id="divine-percentage">0%</span>
+</div>
+
+<div class="research-workers">
+    <span id="buy-research-worker" class="tile-title explainer-text1" onclick="buyResearchWorker()">Buy Research Worker: <span id="research-worker-cost">0</span> Baguettes</span>
+    <span class="tile-title explainer-text2">Current Research Workers: <span id="research-worker-count">0</span></span>
+    <span id="research-percentage">0%</span>
+</div>
+
+</body>
+</html>

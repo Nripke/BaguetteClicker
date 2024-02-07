@@ -97,6 +97,45 @@ var researchCM = 100;
 var researchClickUpgrade = 1; //Divine upgrade, lasts through prestiges
 var researchClickCM = 5;
 
+//Legendary Baguette Variables
+
+//Each worker contributes one "tick"
+var baguetteWorkers = 0;
+var divineWorkers = 0;
+var researchWorkers = 0;
+
+var legendarybaguettes = 0;
+
+var bwCost = 1000000000000000000;
+var dwCost = 1000;
+var rwCost = 100;
+
+var bwCM = 2.5;
+var dwCM = 1.5;
+var rwCM = 1.5;
+
+var bTM = 1.5;
+var dTM = 1.5;
+var rTM = 1.5;
+
+var btStart = 3000;
+var dtStart = 1000;
+var rtStart = 2000;
+
+var baguetteTicks = 0;
+var divineTicks = 0;
+var researchTicks = 0;
+
+/*
+* Equations for calculating ticks needed to complete construction
+*
+* Baguette Construction: 3000*(bTM^legendarybaguettes)
+*
+* Divine Construction: 1000*(dTM^legendarybaguettes)
+*
+* Research Construction: 2000*(rTM^legendarybaguettes)
+*/
+
 //Interesting stat variables:
 var timePlayed = 0; //In seconds
 var clicks = 0;
@@ -138,9 +177,25 @@ function format(num)
     return `${formattedNum} ${suffix}`;
 }
 
+function getLegendaryBaguette()
+{
+    if (baguetteTicks < btStart*Math.pow(bTM, legendarybaguettes)) {return;}
+    if (divineTicks < dtStart*Math.pow(dTM, legendarybaguettes)) {return;}
+    if (researchTicks < rtStart*Math.pow(rTM, legendarybaguettes)) {return;}
+
+    //If ticks are all sufficient
+    legendarybaguettes += 1;
+
+    baguetteTicks = 0;
+    divineTicks = 0;
+    researchTicks = 0;
+
+    updateBaguetteCounters();
+}
+
 function divineBaguetteCalculator()
 {
-    var db = Math.floor(Math.pow(baguettesGenerated/1000000000, 0.5));
+    var db = Math.floor(Math.pow(baguettesGenerated/1000000000, 0.5*Math.pow(1.01, legendarybaguettes)));
     if (db <= 0) {return 0;}
 
     return db;
@@ -330,6 +385,31 @@ function updateBaguetteCounters()
     if (document.getElementById("db-count") != null) {document.getElementById("db-count").textContent = format(db);}
 
     if (document.getElementById("db-total") != null) {document.getElementById("db-total").textContent = format(divinebaguettes);}
+
+    //Update Legendary Information
+
+    var btRatio = Math.floor(10000*(baguetteTicks/(btStart*Math.pow(bTM, legendarybaguettes))))/100;
+    var dtRatio = Math.floor(10000*(divineTicks/(dtStart*Math.pow(dTM, legendarybaguettes))))/100;
+    var rtRatio = Math.floor(10000*(researchTicks/(rtStart*Math.pow(rTM, legendarybaguettes))))/100;
+
+    if (btRatio >= 100) {btRatio = 100;} if (dtRatio >= 100) {dtRatio = 100;} if (rtRatio >= 100) {rtRatio = 100;}
+
+
+    if (document.getElementById("baguette-percentage") != null) {document.getElementById("baguette-percentage").textContent = btRatio + "%";}
+    if (document.getElementById("divine-percentage") != null) {document.getElementById("divine-percentage").textContent = dtRatio + "%";}
+    if (document.getElementById("research-percentage") != null) {document.getElementById("research-percentage").textContent = rtRatio + "%";}
+
+    if (document.getElementById("baguette-worker-count") != null) {document.getElementById("baguette-worker-count").textContent = baguetteWorkers;}
+    if (document.getElementById("divine-worker-count") != null) {document.getElementById("divine-worker-count").textContent = divineWorkers;}
+    if (document.getElementById("research-worker-count") != null) {document.getElementById("research-worker-count").textContent = researchWorkers;}
+
+    if (document.getElementById("baguette-worker-cost") != null) {document.getElementById("baguette-worker-cost").textContent = format(Math.floor(bwCost*Math.pow(bwCM, baguetteWorkers)));}
+    if (document.getElementById("divine-worker-cost") != null) {document.getElementById("divine-worker-cost").textContent = format(Math.floor(dwCost*Math.pow(dwCM, divineWorkers)));}
+    if (document.getElementById("research-worker-cost") != null) {document.getElementById("research-worker-cost").textContent = format(Math.floor(rwCost*Math.pow(rwCM, researchWorkers)));}
+
+    if (document.getElementById("legendary-baguette-count") != null) {document.getElementById("legendary-baguette-count").textContent = legendarybaguettes;}
+
+    if (document.getElementById("div-boost") != null) {document.getElementById("div-boost").textContent = (1+legendarybaguettes)+"%";}
 }
 
 function goFurnace()
@@ -429,6 +509,15 @@ function goPrestige()
 
     save();
     window.location.href = 'prestige.html';
+    return;
+}
+
+function goLegendary()
+{
+    if (!canTravel) {return;}
+
+    save();
+    window.location.href = 'legendary.html';
     return;
 }
 
@@ -714,6 +803,40 @@ function buyLabCostUpgrade()
     }
 }
 
+function buyBaguetteWorker()
+{
+    var cost = Math.floor(bwCost*Math.pow(bwCM, baguetteWorkers));
+    if (baguettes >= cost)
+    {
+        baguettes -= cost;
+        baguetteWorkers += 1;
+        updateBaguetteCounters();
+    }
+}
+
+function buyDivineWorker()
+{
+    var cost = Math.floor(dwCost*Math.pow(dwCM, divineWorkers));
+    if (divinebaguettes >= cost)
+    {
+        divinebaguettes -= cost;
+        divineWorkers += 1;
+        updateBaguetteCounters();
+    }
+}
+
+function buyResearchWorker()
+{
+    var cost = Math.floor(rwCost*Math.pow(rwCM, researchWorkers));
+    if (researchbaguettes >= cost)
+    {
+        researchbaguettes -= cost;
+        researchWorkers += 1;
+        updateBaguetteCounters();
+    }
+}
+
+
 function altarSacrifice()
 {
     /*
@@ -780,7 +903,14 @@ function save()
         frances: frances,
         dimensions: dimensions,
         labCostUpgrades: labCostUpgrades,
-        legendaryUnlocked: legendaryUnlocked
+        legendaryUnlocked: legendaryUnlocked,
+        legendarybaguettes: legendarybaguettes,
+        baguetteWorkers: baguetteWorkers,
+        divineWorkers: divineWorkers,
+        researchWorkers: researchWorkers,
+        baguetteTicks: baguetteTicks,
+        divineTicks: divineTicks,
+        researchTicks: researchTicks
     }
 
     localStorage.setItem("save", JSON.stringify(save));
@@ -831,7 +961,14 @@ function load()
     if (typeof savedata.frances !== "undefined") {frances = savedata.frances;}else {frances = 0;}
     if (typeof savedata.dimensions !== "undefined") {dimensions = savedata.dimensions;}else {dimensions = 0;}
     if (typeof savedata.labCostUpgrades !== "undefined") {labCostUpgrades = savedata.labCostUpgrades;}else {labCostUpgrades = 0;}
-    if (typeof savedata.legendaryUnlocked !== "undefined") {legendaryUnlocked = savedata.legendaryUnlocked}else {legendaryUnlocked = false;}
+    if (typeof savedata.legendaryUnlocked !== "undefined") {legendaryUnlocked = savedata.legendaryUnlocked;}else {legendaryUnlocked = false;}
+    if (typeof savedata.legendarybaguettes !== "undefined") {legendarybaguettes = savedata.legendarybaguettes;}else {legendarybaguettes = 0;}
+    if (typeof savedata.baguetteWorkers !== "undefined") {baguetteWorkers = savedata.baguetteWorkers;}else {baguetteWorkers = 0;}
+    if (typeof savedata.divineWorkers !== "undefined") {divineWorkers = savedata.divineWorkers;}else {divineWorkers = 0;}
+    if (typeof savedata.researchWorkers !== "undefined") {researchWorkers = savedata.researchWorkers;}else {researchWorkers = 0;}
+    if (typeof savedata.baguetteTicks !== "undefined") {baguetteTicks = savedata.baguetteTicks;}else {baguetteTicks = 0;}
+    if (typeof savedata.divineTicks !== "undefined") {divineTicks = savedata.divineTicks;}else {divineTicks = 0;}
+    if (typeof savedata.researchTicks !== "undefined") {researchTicks = savedata.researchTicks;}else {researchTicks = 0;}
 
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
@@ -861,7 +998,7 @@ function reset()
     blackholes = 0;
     frances = 0;
     dimensions = 0;
-
+    
     updateBaguetteCounters();
     updateUnlockedFeatures();
 }
@@ -883,7 +1020,7 @@ function calculateBPS()
     sum += Math.floor(dimensionProduction*dimensions*(1+0.007*researchBoost));
 
     //Divine Baguette Boost
-    sum *= 1+.01*divinebaguettes; //Each gives +1% boost to BPS
+    sum *= 1+(.01*(legendarybaguettes+1))*divinebaguettes; //Each gives +1% boost to BPS, but +1% extra for each legendary baguette
     return sum;
 }
 
@@ -904,7 +1041,7 @@ function calculateBPSVariable(research, epic, divine)
     sum += Math.floor(dimensionProduction*dimensions*(1+0.007*researchBoost));
 
     //Divine Baguette Boost
-    sum *= 1+.01*divine; //Each gives +1% boost to BPS
+    sum *= 1+(.01*(legendarybaguettes+1))*divine; //Each gives +1% boost to BPS, but +1% extra for each legendary baguette
     return sum;
 }
 
@@ -941,8 +1078,15 @@ setInterval(function generateBaguettes() {
     baguettesGenerated += calculateBPS();
     timePlayed++;
 
+    //Legendary Baguette Stuff
+    baguetteTicks += baguetteWorkers;
+    divineTicks += divineWorkers;
+    researchTicks += researchWorkers;
+    getLegendaryBaguette();
+
     updateBaguetteCounters();
 }, 1000);
+
 
 //Research Generation
 researchInterval = setInterval(function generateResearch() {
