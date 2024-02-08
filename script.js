@@ -112,7 +112,7 @@ var rwCost = 100;
 
 var bwCM = 2.5;
 var dwCM = 1.5;
-var rwCM = 1.5;
+var rwCM = 1.3;
 
 var bTM = 1.5;
 var dTM = 1.5;
@@ -169,10 +169,16 @@ function format(num)
     const suffixes = ["", "thousand", "million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion", "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", "octodecillion", "novemdecillion", "vigintillion"];
 
     const suffixIndex = Math.floor(Math.log10(Math.abs(num)) / 3);
+    var suffix = suffixes[suffixIndex];
+    if (suffixIndex > suffixes.length-1)
+    {
+        suffix = "10E"+(suffixIndex*3);
+    }
+
     const scaledNum = num / Math.pow(10, suffixIndex * 3);
 
     const formattedNum = scaledNum.toFixed(3).replace(/\.0$/, ''); // Remove trailing zeroes
-    const suffix = suffixes[suffixIndex];
+    
 
     return `${formattedNum} ${suffix}`;
 }
@@ -1090,6 +1096,19 @@ setInterval(function generateBaguettes() {
 
 //Research Generation
 researchInterval = setInterval(function generateResearch() {
+    if (labs >= 150) //To prevent lag, we just average the probabilities once you get enough labs
+    {
+        if (baguettes < labs*Math.pow(10, researchPercent)) {return;} //Can't afford
+    
+        baguettes -= Math.floor(Math.pow(10, researchPercent)*labs);
+
+        researchbaguettes += researchClickUpgrade*Math.floor(labs*(researchPercent/100)); //Just average the results
+
+        playAnimation(document.getElementById("research-button"), "furnaceClick");
+        updateBaguetteCounters();
+        return;
+    }
+
     for (let i = 0; i<labs; i++) //Auto Lab research
     {
         researchClick();
