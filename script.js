@@ -927,6 +927,19 @@ function save()
     clearInterval(researchInterval);
 
     researchInterval = setInterval(function generateResearch() {
+        if (labs >= 150) //To prevent lag, we just average the probabilities once you get enough labs
+        {
+            if (baguettes < labs*Math.pow(10, researchPercent)) {return;} //Can't afford
+    
+            baguettes -= Math.floor(Math.pow(10, researchPercent)*labs);
+
+            researchbaguettes += researchClickUpgrade*Math.floor(labs*(researchPercent/100)); //Just average the results
+
+            playAnimation(document.getElementById("research-button"), "furnaceClick");
+            updateBaguetteCounters();
+        return;
+        }
+        
         for (let i = 0; i<labs; i++) //Auto Lab research
         {
             researchClick();
