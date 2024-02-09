@@ -86,7 +86,7 @@ var labSpeedMultiplier = 0.9875;
 var labCostUpgrades = 0;
 var labCUCost = 5;
 var labCUCM = 2;
-var labCUMultiplier = 0.95;
+var labCUMultiplier = 0.975;
 
 var clickAmount = 1;
 var clickerCM = 1.2;
@@ -110,9 +110,9 @@ var bwCost = 1000000000000000000;
 var dwCost = 1000;
 var rwCost = 100;
 
-var bwCM = 2.5;
+var bwCM = 2.25;
 var dwCM = 1.5;
-var rwCM = 1.3;
+var rwCM = 1.2;
 
 var bTM = 1.5;
 var dTM = 1.5;
@@ -310,7 +310,7 @@ function updateBaguetteCounters()
     document.getElementById("researchbaguette-count").textContent = format(researchbaguettes);
 
     document.getElementById("BPS-count").textContent = format(calculateBPS());
-    document.getElementById("RBoost-count").textContent = calculateResearchBoost();
+    document.getElementById("RBoost-count").textContent = format(calculateResearchBoost()) + " ";
 
     if (document.getElementById("TP-count") != null) {document.getElementById("TP-count").textContent = timePlayed;}
 
@@ -853,6 +853,7 @@ function altarSacrifice()
     * 
     * Each purchase gives 0.0001 --> Takes one thousand purchases to reach next base cost
     */
+    if (epicbaguettes >= 6) {epicbaguettes = 6; return;} //Make a cap on epicbaguettes
     var totalCost = altarCost();
     
     if (baguettes < totalCost)
@@ -937,9 +938,9 @@ function save()
 
             playAnimation(document.getElementById("research-button"), "furnaceClick");
             updateBaguetteCounters();
-        return;
+            return;
         }
-        
+
         for (let i = 0; i<labs; i++) //Auto Lab research
         {
             researchClick();
@@ -992,6 +993,30 @@ function load()
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
+
+    clearInterval(researchInterval);
+
+    researchInterval = setInterval(function generateResearch() {
+        if (labs >= 150) //To prevent lag, we just average the probabilities once you get enough labs
+        {
+            if (baguettes < labs*Math.pow(10, researchPercent)) {return;} //Can't afford
+    
+            baguettes -= Math.floor(Math.pow(10, researchPercent)*labs);
+
+            researchbaguettes += researchClickUpgrade*Math.floor(labs*(researchPercent/100)); //Just average the results
+
+            playAnimation(document.getElementById("research-button"), "furnaceClick");
+            updateBaguetteCounters();
+            return;
+        }
+
+        for (let i = 0; i<labs; i++) //Auto Lab research
+        {
+            researchClick();
+        }
+        
+        updateBaguetteCounters();
+    }, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
 }
 
 function reset()
