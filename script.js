@@ -83,6 +83,8 @@ var labSpeedUpgrades = 0;
 var labSpeedCM = 1.35;
 var labSpeedMultiplier = 0.9875;
 
+var labSpeedMinimized = 1000; //Cap the speed at 1 ms, from that point on, simply do an average calculation
+
 var labCostUpgrades = 0;
 var labCUCost = 5;
 var labCUCM = 2;
@@ -110,9 +112,9 @@ var bwCost = 1000000000000000000;
 var dwCost = 1000;
 var rwCost = 100;
 
-var bwCM = 2.25;
-var dwCM = 1.5;
-var rwCM = 1.2;
+var bwCM = 2;
+var dwCM = 1.35;
+var rwCM = 1.15;
 
 var bTM = 1.5;
 var dTM = 1.5;
@@ -876,7 +878,12 @@ function altarCost()
     var baseCost = 1000000*Math.pow(1000,Math.floor(epicbaguettes*10));
     var inBetween = epicbaguettes*10000 - 1000*Math.floor(epicbaguettes*10);
 
-    return baseCost*(inBetween+1);
+    var cost = baseCost*(inBetween+1);
+    if (epicbaguettes >= 1)
+    {
+        cost = Math.pow(cost, 1+epicbaguettes/7);
+    }
+    return cost;
 }
 
 function save()
@@ -923,18 +930,19 @@ function save()
     localStorage.setItem("save", JSON.stringify(save));
     console.log("Game Saved!");
 
-    
+    if (labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades) <= 1) {labSpeedMinimized = 1;}else {labSpeedMinimized = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
 
     clearInterval(researchInterval);
 
     researchInterval = setInterval(function generateResearch() {
-        if (labs >= 150) //To prevent lag, we just average the probabilities once you get enough labs
+        if (labs >= 150 || labSpeedMinimized <= 1) //To prevent lag, we just average the probabilities once you get enough labs
         {
-            if (baguettes < labs*Math.pow(10, researchPercent)) {return;} //Can't afford
+            var totalCalls = labs*(1/(labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades)));
+            if (baguettes < totalCalls*Math.pow(10, researchPercent)) {return;} //Can't afford
     
-            baguettes -= Math.floor(Math.pow(10, researchPercent)*labs);
+            baguettes -= Math.floor(Math.pow(10, researchPercent)*totalCalls);
 
-            researchbaguettes += researchClickUpgrade*Math.floor(labs*(researchPercent/100)); //Just average the results
+            researchbaguettes += researchClickUpgrade*Math.floor(totalCalls*(researchPercent/100)); //Just average the results
 
             playAnimation(document.getElementById("research-button"), "furnaceClick");
             updateBaguetteCounters();
@@ -947,7 +955,7 @@ function save()
         }
         
         updateBaguetteCounters();
-    }, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
+    }, labSpeedMinimized);
 }
 
 function load()
@@ -992,18 +1000,22 @@ function load()
 
     if (researchClickUpgrade == 0) {researchClickUpgrade = 1;} //Fix stupid issue
 
+    //Set the cap on labSpeedMinimized
+    if (labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades) <= 1) {labSpeedMinimized = 1;}else {labSpeedMinimized = labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades);}
+
     canTravel = true; //Only allow traveling after you have loaded past progress! This prevents save() being called without having loaded
 
     clearInterval(researchInterval);
 
     researchInterval = setInterval(function generateResearch() {
-        if (labs >= 150) //To prevent lag, we just average the probabilities once you get enough labs
+        if (labs >= 150 || labSpeedMinimized <= 1) //To prevent lag, we just average the probabilities once you get enough labs
         {
-            if (baguettes < labs*Math.pow(10, researchPercent)) {return;} //Can't afford
+            var totalCalls = labs*(1/(labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades)));
+            if (baguettes < totalCalls*Math.pow(10, researchPercent)) {return;} //Can't afford
     
-            baguettes -= Math.floor(Math.pow(10, researchPercent)*labs);
+            baguettes -= Math.floor(Math.pow(10, researchPercent)*totalCalls);
 
-            researchbaguettes += researchClickUpgrade*Math.floor(labs*(researchPercent/100)); //Just average the results
+            researchbaguettes += researchClickUpgrade*Math.floor(totalCalls*(researchPercent/100)); //Just average the results
 
             playAnimation(document.getElementById("research-button"), "furnaceClick");
             updateBaguetteCounters();
@@ -1016,7 +1028,7 @@ function load()
         }
         
         updateBaguetteCounters();
-    }, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
+    }, labSpeedMinimized);
 }
 
 function reset()
@@ -1042,7 +1054,8 @@ function reset()
     blackholes = 0;
     frances = 0;
     dimensions = 0;
-    
+    labSpeedMinimized = 1000;
+
     updateBaguetteCounters();
     updateUnlockedFeatures();
 }
@@ -1153,7 +1166,7 @@ researchInterval = setInterval(function generateResearch() {
     }
 
     updateBaguetteCounters();
-}, labSpeed*Math.pow(labSpeedMultiplier, labSpeedUpgrades));
+}, labSpeedMinimized);
 
 
 //Auto save
